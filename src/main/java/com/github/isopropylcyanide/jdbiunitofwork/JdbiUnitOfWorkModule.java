@@ -29,9 +29,9 @@ public class JdbiUnitOfWorkModule extends AbstractModule {
     @Override
     protected void configure() {
         Set<? extends Class<?>> allDaoClasses = daoPackages.stream().map(
-                package_ -> Sets.union(
-                        new Reflections(package_, new MethodAnnotationsScanner()).getMethodsAnnotatedWith(SqlQuery.class),
-                        new Reflections(package_, new MethodAnnotationsScanner()).getMethodsAnnotatedWith(SqlUpdate.class)
+                pkg -> Sets.union(
+                        new Reflections(pkg, new MethodAnnotationsScanner()).getMethodsAnnotatedWith(SqlQuery.class),
+                        new Reflections(pkg, new MethodAnnotationsScanner()).getMethodsAnnotatedWith(SqlUpdate.class)
                 ).stream().map(Method::getDeclaringClass).collect(Collectors.toSet())
         ).flatMap(Collection::stream).collect(Collectors.toSet());
 
