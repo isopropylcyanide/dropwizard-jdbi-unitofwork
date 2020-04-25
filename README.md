@@ -1,4 +1,8 @@
 ## Dropwizard Jdbi - Unit of Work Support
+![Travis (.org)](https://img.shields.io/travis/isopropylcyanide/dropwizard-jdbi-unitofwork)
+![Codecov](https://img.shields.io/codecov/c/github/isopropylcyanide/dropwizard-jdbi-unitofwork?color=green)
+![GitHub](https://img.shields.io/github/license/isopropylcyanide/dropwizard-jdbi-unitofwork?color=blue)
+
 
 Provides `@JdbiUnitOfWork` annotation for a Jdbi backed Dropwizard backend for wrapping resource methods in a transaction context
 
