@@ -7,7 +7,7 @@
     <groupId>com.github.isopropylcyanide</groupId>
     <artifactId>dropwizard-jdbi-unitofwork</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>Dropwizard Jdbi Unit Of Work Support</name>
+    <name>Dropwizard Jdbi Unit Of Work</name>
 
     <licenses>
         <license>
@@ -18,14 +18,17 @@
     </licenses>
 
     <properties>
+        <!--Build-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        
-        <dropwizard.jdbi.version>1.3.20</dropwizard.jdbi.version>
+
+        <!--Application-->
+        <dropwizard.version>1.3.20</dropwizard.version>
         <org.reflections.version>0.9.9</org.reflections.version>
         <guava.version>23.6-jre</guava.version>
+        <google.guice.version>4.2.0</google.guice.version>
         <h2.version>1.4.197</h2.version>
 
         <!--Sonar / Code Coverage-->
@@ -35,14 +38,14 @@
         <surefire.version>2.19.1</surefire.version>
         <sonar.language>java</sonar.language>
         <jacoco.version>0.8.2</jacoco.version>
-        <sonar.exclusions>**/*Module.java,**/*Configuration.java,**/conf/**/*</sonar.exclusions>
+        <sonar.exclusions>**/*Module.java</sonar.exclusions>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-jdbi</artifactId>
-            <version>${dropwizard.jdbi.version}</version>
+            <version>${dropwizard.version}</version>
         </dependency>
 
         <dependency>
@@ -58,10 +61,61 @@
         </dependency>
 
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.8</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>${google.guice.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.9</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>4.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.25</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>3.0.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.25</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>test</scope>
             <version>${h2.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.dropwizard</groupId>
+            <artifactId>dropwizard-testing</artifactId>
+            <version>${dropwizard.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
