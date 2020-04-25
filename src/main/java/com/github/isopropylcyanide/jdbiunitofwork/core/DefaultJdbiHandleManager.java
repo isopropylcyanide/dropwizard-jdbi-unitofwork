@@ -13,9 +13,10 @@
  */
 package com.github.isopropylcyanide.jdbiunitofwork.core;
 
-import lombok.extern.slf4j.Slf4j;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This implementation gets a new handle each time it is invoked. It simulates the default
@@ -24,9 +25,9 @@ import org.skife.jdbi.v2.Handle;
  * It can be used to service requests which interact with only a single method in a single handle
  * Note: Not suitable for requests spanning multiple Dbi as the handle returned is different
  */
-@Slf4j
 public class DefaultJdbiHandleManager implements JdbiHandleManager {
 
+    private static final Logger log = LoggerFactory.getLogger(DefaultJdbiHandleManager.class);
     private final DBI dbi;
 
     public DefaultJdbiHandleManager(DBI dbi) {

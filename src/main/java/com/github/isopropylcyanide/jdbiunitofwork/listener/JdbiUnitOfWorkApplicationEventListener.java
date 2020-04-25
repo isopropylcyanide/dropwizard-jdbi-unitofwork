@@ -14,11 +14,12 @@
 package com.github.isopropylcyanide.jdbiunitofwork.listener;
 
 import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiHandleManager;
-import lombok.extern.slf4j.Slf4j;
 import org.glassfish.jersey.server.monitoring.ApplicationEvent;
 import org.glassfish.jersey.server.monitoring.ApplicationEventListener;
 import org.glassfish.jersey.server.monitoring.RequestEvent;
 import org.glassfish.jersey.server.monitoring.RequestEventListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.HttpMethod;
 import java.util.Set;
@@ -28,9 +29,9 @@ import java.util.Set;
  * The request listener triggers calls appropriate methods on a transaction aspect based on the
  * request lifecycle methods returned from Jersey
  */
-@Slf4j
 public class JdbiUnitOfWorkApplicationEventListener implements ApplicationEventListener {
 
+    private static final Logger log = LoggerFactory.getLogger(JdbiUnitOfWorkApplicationEventListener.class);
     private final JdbiHandleManager handleManager;
     private final Set<String> excludedPaths;
 

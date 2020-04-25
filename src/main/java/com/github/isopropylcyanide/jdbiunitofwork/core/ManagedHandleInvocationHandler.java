@@ -13,8 +13,9 @@
  */
 package com.github.isopropylcyanide.jdbiunitofwork.core;
 
-import lombok.extern.slf4j.Slf4j;
 import org.skife.jdbi.v2.Handle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
@@ -31,24 +32,23 @@ import java.lang.reflect.Method;
  * <p>
  * Also delegates {@link Object#toString} to the real object instead of the proxy
  */
-@Slf4j
-public class ManagedHandleInvocationProxy<T> implements InvocationHandler {
+public class ManagedHandleInvocationHandler<T> implements InvocationHandler {
 
+    private static final Logger log = LoggerFactory.getLogger(ManagedHandleInvocationHandler.class);
     private static final Object[] NO_ARGS = {};
     private final JdbiHandleManager handleManager;
     private final Class<T> underlying;
 
-    public ManagedHandleInvocationProxy(JdbiHandleManager handleManager, Class<T> underlying) {
+    public ManagedHandleInvocationHandler(JdbiHandleManager handleManager, Class<T> underlying) {
         this.handleManager = handleManager;
         this.underlying = underlying;
     }
 
     /**
      * {@inheritDoc}
-     *
      * <ul>
-     * <li>{@code proxy.toString()} delegates to {@link Object#toString}
-     * <li>other method calls are dispatched to {@link #handleInvocation}.
+     * <li>{@code proxy.toString()} delegates to {@link ManagedHandleInvocationHandler#toString}
+     * <li>other method calls are dispatched to {@link ManagedHandleInvocationHandler#handleInvocation}.
      * </ul>
      */
     @Override
@@ -68,5 +68,10 @@ public class ManagedHandleInvocationProxy<T> implements InvocationHandler {
 
         Object dao = handle.attach(underlying);
         return method.invoke(dao, args);
+    }
+
+    @Override
+    public String toString() {
+        return "Proxy[" + underlying.getSimpleName() + "]";
     }
 }

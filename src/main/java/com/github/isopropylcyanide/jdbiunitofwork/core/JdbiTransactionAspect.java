@@ -13,8 +13,9 @@
  */
 package com.github.isopropylcyanide.jdbiunitofwork.core;
 
-import lombok.extern.slf4j.Slf4j;
 import org.skife.jdbi.v2.Handle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * An aspect providing low level operations around a {@link Handle}
@@ -23,9 +24,9 @@ import org.skife.jdbi.v2.Handle;
  * @see <a href="https://github.com/dropwizard/dropwizard/blob/master/dropwizard-hibernate/src/main/java/io/dropwizard/hibernate/UnitOfWorkAspect.java">
  * Unit Of Work Aspect</a>
  */
-@Slf4j
 public class JdbiTransactionAspect {
 
+    private static final Logger log = LoggerFactory.getLogger(JdbiTransactionAspect.class);
     private final JdbiHandleManager handleManager;
     private Handle handle;
 

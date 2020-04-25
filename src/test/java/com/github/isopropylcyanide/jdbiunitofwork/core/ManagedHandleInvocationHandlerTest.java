@@ -1,9 +1,6 @@
 package com.github.isopropylcyanide.jdbiunitofwork.core;
 
 import com.google.common.reflect.Reflection;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -11,7 +8,6 @@ import org.mockito.MockitoAnnotations;
 import org.skife.jdbi.v2.Handle;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -19,8 +15,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SuppressWarnings({"UnstableApiUsage", "unchecked"})
-@Slf4j
-public class ManagedHandleInvocationProxyTest {
+public class ManagedHandleInvocationHandlerTest {
 
     @Mock
     private JdbiHandleManager handleManager;
@@ -30,13 +25,13 @@ public class ManagedHandleInvocationProxyTest {
 
     private Class<DummyDao> declaringClass;
 
-    private ManagedHandleInvocationProxy proxy;
+    private ManagedHandleInvocationHandler proxy;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         this.declaringClass = DummyDao.class;
-        this.proxy = new ManagedHandleInvocationProxy(handleManager, declaringClass);
+        this.proxy = new ManagedHandleInvocationHandler(handleManager, declaringClass);
     }
 
     @Test
@@ -58,7 +53,7 @@ public class ManagedHandleInvocationProxyTest {
         DummyDao proxy = declaringClass.cast(proxiedInstance);
 
         String str = proxy.toString();
-        assertTrue(str.contains("Proxy"));
+        assertEquals("Proxy[DummyDao]", str);
         verify(handleManager, never()).get();
     }
 
@@ -66,11 +61,13 @@ public class ManagedHandleInvocationProxyTest {
         void query();
     }
 
-    @AllArgsConstructor
-    @Getter
     class DummyDaoImpl implements DummyDao {
 
         private Handle handle;
+
+        DummyDaoImpl(Handle handle) {
+            this.handle = handle;
+        }
 
         @Override
         public void query() {

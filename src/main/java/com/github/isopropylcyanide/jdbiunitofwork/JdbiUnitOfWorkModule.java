@@ -14,7 +14,7 @@
 package com.github.isopropylcyanide.jdbiunitofwork;
 
 import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiHandleManager;
-import com.github.isopropylcyanide.jdbiunitofwork.core.ManagedHandleInvocationProxy;
+import com.github.isopropylcyanide.jdbiunitofwork.core.ManagedHandleInvocationHandler;
 import com.google.common.collect.Sets;
 import com.google.common.reflect.Reflection;
 import com.google.inject.AbstractModule;
@@ -55,7 +55,7 @@ public class JdbiUnitOfWorkModule extends AbstractModule {
 
     @SuppressWarnings("UnstableApiUsage")
     private <T> T createNewProxy(Class<T> daoClass, JdbiHandleManager handleManager) {
-        Object proxiedInstance = Reflection.newProxy(daoClass, new ManagedHandleInvocationProxy<>(handleManager, daoClass));
+        Object proxiedInstance = Reflection.newProxy(daoClass, new ManagedHandleInvocationHandler<>(handleManager, daoClass));
         return daoClass.cast(proxiedInstance);
     }
 }

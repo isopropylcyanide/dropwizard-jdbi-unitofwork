@@ -14,10 +14,11 @@
 package com.github.isopropylcyanide.jdbiunitofwork.core;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -40,9 +41,9 @@ import java.util.concurrent.ThreadFactory;
  * dao requests between multiple threads.
  * Note: Not suitable when you can not set the name format for the newly spawned threads.
  **/
-@Slf4j
 public class LinkedRequestScopedJdbiHandleManager implements JdbiHandleManager {
 
+    private static final Logger log = LoggerFactory.getLogger(LinkedRequestScopedJdbiHandleManager.class);
     private static final String NAME_FORMAT = "[%s]-%%d";
     private final Map<String, Handle> parentThreadHandleMap = new ConcurrentHashMap<>();
     private final DBI dbi;

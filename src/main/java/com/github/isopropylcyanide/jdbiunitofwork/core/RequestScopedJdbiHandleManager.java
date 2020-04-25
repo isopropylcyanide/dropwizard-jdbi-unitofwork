@@ -13,9 +13,10 @@
  */
 package com.github.isopropylcyanide.jdbiunitofwork.core;
 
-import lombok.extern.slf4j.Slf4j;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This implementation gets a new handle which is scoped to the thread requesting the handle.
@@ -23,9 +24,9 @@ import org.skife.jdbi.v2.Handle;
  * It can be used to service requests which interact with multiple handles as part of a common transaction
  * Note: Not suitable for requests which spawn new threads as the scoped handle is not preserved.
  */
-@Slf4j
 public class RequestScopedJdbiHandleManager implements JdbiHandleManager {
 
+    private static final Logger log = LoggerFactory.getLogger(RequestScopedJdbiHandleManager.class);
     private final DBI dbi;
     private final ThreadLocal<Handle> threadLocal = new ThreadLocal<>();
 

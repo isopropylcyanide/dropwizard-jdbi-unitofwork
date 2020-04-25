@@ -15,13 +15,14 @@ package com.github.isopropylcyanide.jdbiunitofwork.listener;
 
 import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiHandleManager;
 import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiTransactionAspect;
-import lombok.extern.slf4j.Slf4j;
 import org.glassfish.jersey.server.monitoring.RequestEvent;
 import org.glassfish.jersey.server.monitoring.RequestEventListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Slf4j
 class HttpGetRequestJdbiUnitOfWorkEventListener implements RequestEventListener {
 
+    private static final Logger log = LoggerFactory.getLogger(HttpGetRequestJdbiUnitOfWorkEventListener.class);
     private final JdbiTransactionAspect transactionAspect;
 
     HttpGetRequestJdbiUnitOfWorkEventListener(JdbiHandleManager handleManager) {
