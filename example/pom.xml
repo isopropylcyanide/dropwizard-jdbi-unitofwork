@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.github.isopropylcyanide</groupId>
+    <artifactId>example</artifactId>
+    <version>1.0</version>
+    <name>Example</name>
+
+    <licenses>
+        <license>
+            <name>Apache 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <properties>
+        <!--Build-->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <surefire.version>2.19.1</surefire.version>
+
+        <!--Application-->
+        <dropwizard.jdbi.unitofwork.version>1.0</dropwizard.jdbi.unitofwork.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.github.isopropylcyanide</groupId>
+            <artifactId>dropwizard-jdbi-unitofwork</artifactId>
+            <version>${dropwizard.jdbi.unitofwork.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!--Maven Surefire Plugin-->
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.version}</version>
+                <configuration>
+                    <printSummary>true</printSummary>
+                    <properties>
+                        <property>
+                            <name>junit</name>
+                            <value>false</value>
+                        </property>
+                    </properties>
+                    <threadCount>1</threadCount>
+                    <argLine>-XX:MaxPermSize=512m</argLine>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.surefire</groupId>
+                        <artifactId>surefire-junit47</artifactId>
+                        <version>${surefire.version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>default-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <argLine>${surefireArgLine}</argLine>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
