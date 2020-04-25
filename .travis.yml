@@ -3,5 +3,8 @@ sudo: false
 jdk:
   - openjdk8
 
+script:
+  mvn clean install jacoco:prepare-agent
+
 after_success:
   - bash <(curl -s https://codecov.io/bash)
