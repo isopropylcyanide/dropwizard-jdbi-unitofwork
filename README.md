@@ -21,6 +21,14 @@ Provides `@JdbiUnitOfWork` annotation for a Jdbi backed Dropwizard backend for w
 
 ## Usage 
 
+- Add the dependency to your `pom.xml`
+```xml
+     <dependency>
+        <groupId>com.github.isopropylcyanide</groupId>
+        <artifactId>dropwizard-jdbi-unitofwork</artifactId>
+        <version>${dropwizard.jdbi.unitofwork.version}</version>
+     </dependency>
+```
 - Decide which implementation of `JdbiHandleManager` is suitable for your use case.
 
   ```java
