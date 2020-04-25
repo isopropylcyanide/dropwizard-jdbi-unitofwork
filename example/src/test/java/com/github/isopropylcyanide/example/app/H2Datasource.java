@@ -8,6 +8,7 @@ import org.apache.tomcat.jdbc.pool.PoolProperties;
 import org.junit.rules.ExternalResource;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
+import org.skife.jdbi.v2.TransactionIsolationLevel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +38,7 @@ public class H2Datasource extends ExternalResource {
         try (Handle handle = dbi.open()) {
             log.debug("Creating database script using schema {}", createSchemaSqlFile);
             handle.createScript(fixture(createSchemaSqlFile)).execute();
+            handle.setTransactionIsolation(TransactionIsolationLevel.READ_COMMITTED);
         }
     }
 

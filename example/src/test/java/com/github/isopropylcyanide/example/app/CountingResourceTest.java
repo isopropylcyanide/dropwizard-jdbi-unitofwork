@@ -14,19 +14,16 @@ import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.concurrent.CountDownLatch;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-public class ApplicationIntegrationTest extends JerseyTest {
+public class CountingResourceTest extends JerseyTest {
 
     private static CountingDao dao;
 
@@ -37,8 +34,6 @@ public class ApplicationIntegrationTest extends JerseyTest {
 
     @ClassRule
     public static H2Datasource datasource = new H2Datasource("h2_schema.sql", "h2_schema_drop.sql");
-
-    private static final Logger log = LoggerFactory.getLogger(ApplicationIntegrationTest.class);
 
     @BeforeClass
     public static void setup() {
@@ -52,7 +47,7 @@ public class ApplicationIntegrationTest extends JerseyTest {
     protected Application configure() {
         dao.clear();
         return new ResourceConfig()
-                .register(new CountingResource(dao))
+                .register(new CountingResource(handleManager, dao))
                 .register(CountingResourceExceptionMapper.class)
                 .register(new JdbiUnitOfWorkApplicationEventListener(handleManager, Sets.newHashSet("excluded")));
     }
@@ -96,7 +91,7 @@ public class ApplicationIntegrationTest extends JerseyTest {
 
         int currentCount = dao.count();
         assertEquals(500, response.getStatus());
-        assertEquals(failOn, currentCount);
+        assertEquals(failOn - 1, currentCount);
         assertNotEquals(expectedCountIfRolledBack, currentCount);
     }
 
@@ -115,56 +110,50 @@ public class ApplicationIntegrationTest extends JerseyTest {
     }
 
     @Test
-    public void testInsertWithFailureAtomicCommitForNConcurrentThreads() throws InterruptedException {
+    public void testInsertWithFailureAtomicCommitForConcurrentThreads() {
         int numThread = 6;
         int countPerThread = 5;
-        CountDownLatch startGate = new CountDownLatch(1);
-        CountDownLatch endGate = new CountDownLatch(numThread);
+        target("/insert/multi/unitofwork")
+                .queryParam("failOnce", false)
+                .queryParam("numThreads", numThread)
+                .request()
+                .post(Entity.entity(countPerThread, MediaType.TEXT_PLAIN_TYPE));
 
-        for (int i = 0; i < numThread; i++) {
-            new Thread(() -> {
-                try {
-                    startGate.await();
-                    target("/insert/unitofwork").request()
-                            .post(Entity.entity(countPerThread, MediaType.TEXT_PLAIN_TYPE));
-
-                } catch (InterruptedException ex) {
-                    log.error(ex.getMessage(), ex);
-                } finally {
-                    endGate.countDown();
-                }
-            }).start();
-        }
-        startGate.countDown();
-        endGate.await();
         assertEquals(numThread * countPerThread, dao.count());
     }
 
     @Test
-    public void testInsertWithFailureAtomicRollbackForNConcurrentThreads() throws InterruptedException {
-        int numThread = 4;
-        int countPerThread = 3;
-        CountDownLatch startGate = new CountDownLatch(1);
-        CountDownLatch endGate = new CountDownLatch(numThread);
+    public void testInsertWithFailureAtomicRollsBackOnlyOneHandleForConcurrentThreadsWhenThreadFactoryIsNotSet() throws InterruptedException {
+        int numThread = 2;
+        int countPerThread = 5;
+        int failOn = countPerThread - 1;
+        target("/insert/multi/unitofwork")
+                .queryParam("failOnce", true)
+                .queryParam("failOn", failOn)
+                .queryParam("numThreads", numThread)
+                .request()
+                .post(Entity.entity(countPerThread, MediaType.TEXT_PLAIN_TYPE));
 
-        for (int i = 0; i < numThread; i++) {
-            new Thread(() -> {
-                try {
-                    startGate.await();
-                    target("/insert/unitofwork")
-                            .queryParam("failOn", 2)
-                            .request()
-                            .post(Entity.entity(countPerThread, MediaType.TEXT_PLAIN_TYPE));
+        int expectedCountForThreadsWithSuccess = (countPerThread) * (numThread - 1);
+        int expectedCountForThreadsWithFailure = failOn - 1;
+        int expectedTotalCount = expectedCountForThreadsWithSuccess + expectedCountForThreadsWithFailure;
 
-                } catch (InterruptedException ex) {
-                    log.error(ex.getMessage(), ex);
-                } finally {
-                    endGate.countDown();
-                }
-            }).start();
-        }
-        startGate.countDown();
-        endGate.await();
+        assertEquals(expectedTotalCount, dao.count());
+    }
+
+    @Test
+    public void testInsertWithFailureAtomicRollsBackTheOnlyHandleForNConcurrentThreadsWhenThreadFactoryIsSet() throws InterruptedException {
+        int numThread = 2;
+        int countPerThread = 5;
+        int failOn = countPerThread - 1;
+
+        target("/insert/multi/unitofwork/factory")
+                .queryParam("failOnce", true)
+                .queryParam("failOn", failOn)
+                .queryParam("numThreads", numThread)
+                .request()
+                .post(Entity.entity(countPerThread, MediaType.TEXT_PLAIN_TYPE));
+
         assertEquals(0, dao.count());
     }
 }
