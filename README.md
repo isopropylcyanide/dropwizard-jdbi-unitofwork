@@ -6,17 +6,6 @@ Provides `@JdbiUnitOfWork` annotation for a Jdbi backed Dropwizard backend for w
 
 - However this support is only available for `Hibernate`. For all the goodness [`Jdbi`](http://jdbi.org/jdbi2/) brings, we had to bring the transactionality on our own. This module provides support for `JdbiUnitOfWork` with a `Jdbi` backend
 
-## Maven Artifacts
-
-This project is available on Maven Central. To add it to your project you can add the following dependencies to your
-`pom.xml`:
-
-    <dependency>
-        <groupId>com.github.isopropylcyanide</groupId>
-        <artifactId>dropwizard-jdbi-unitofwork</artifactId>
-        <version>${dropwizard.jdbi.unitofwork.version}</version>
-     </dependency>
-
 
 ## Features
 

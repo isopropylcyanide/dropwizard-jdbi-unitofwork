@@ -95,6 +95,11 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco.version}</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*Module.java</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <!-- pre-unit-test execution helps setting up some maven property,
                       which will be used later by JaCoCo -->
