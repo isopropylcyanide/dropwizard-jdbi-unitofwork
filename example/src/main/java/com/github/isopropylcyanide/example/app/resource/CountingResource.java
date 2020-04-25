@@ -26,15 +26,15 @@ public class CountingResource {
     }
 
     @POST
-    @Path("/insert/non/transactional")
-    public void insertNonTransactional(Integer size, @QueryParam("failOn") @DefaultValue("-1") Integer failOn) {
+    @Path("/insert")
+    public void insertWithFailureNonAtomic(Integer size, @QueryParam("failOn") @DefaultValue("-1") Integer failOn) {
         insert(size, failOn);
     }
 
     @POST
-    @Path("/insert/transactional")
+    @Path("/insert/unitofwork")
     @JdbiUnitOfWork
-    public void insertTransactional(Integer size, @QueryParam("failOn") @DefaultValue("-1") Integer failOn) {
+    public void insertWithFailureAtomic(Integer size, @QueryParam("failOn") @DefaultValue("-1") Integer failOn) {
         insert(size, failOn);
     }
 

@@ -27,6 +27,9 @@
 
         <!--Application-->
         <dropwizard.jdbi.unitofwork.version>1.0</dropwizard.jdbi.unitofwork.version>
+        <junit.version>4.13</junit.version>
+        <jersey.test.framework.version>2.25.1</jersey.test.framework.version>
+        <h2.version>1.4.197</h2.version>
     </properties>
 
     <dependencies>
@@ -34,6 +37,27 @@
             <groupId>com.github.isopropylcyanide</groupId>
             <artifactId>dropwizard-jdbi-unitofwork</artifactId>
             <version>${dropwizard.jdbi.unitofwork.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+            <artifactId>jersey-test-framework-provider-inmemory</artifactId>
+            <version>${jersey.test.framework.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

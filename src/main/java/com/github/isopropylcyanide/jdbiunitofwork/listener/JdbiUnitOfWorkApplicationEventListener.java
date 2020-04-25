@@ -35,7 +35,7 @@ public class JdbiUnitOfWorkApplicationEventListener implements ApplicationEventL
     private final JdbiHandleManager handleManager;
     private final Set<String> excludedPaths;
 
-    JdbiUnitOfWorkApplicationEventListener(JdbiHandleManager handleManager, Set<String> excludedPaths) {
+    public JdbiUnitOfWorkApplicationEventListener(JdbiHandleManager handleManager, Set<String> excludedPaths) {
         this.handleManager = handleManager;
         this.excludedPaths = excludedPaths;
     }

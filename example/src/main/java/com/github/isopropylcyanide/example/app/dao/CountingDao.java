@@ -6,12 +6,12 @@ import org.skife.jdbi.v2.sqlobject.SqlUpdate;
 
 public interface CountingDao {
 
-    @SqlUpdate("insert into transaction_test (id) values (:id)")
+    @SqlUpdate("insert into counter (id) values (:id)")
     void insert(@Bind("id") String id);
 
-    @SqlQuery("select count(*) from transaction_test")
+    @SqlQuery("select count(*) from counter")
     int count();
 
-    @SqlUpdate("delete from transaction_test")
+    @SqlUpdate("delete from counter")
     void clear();
 }
