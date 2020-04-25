@@ -1,0 +1,27 @@
+*.class
+.idea/
+.vagrant/
+*.iml
+.DS_Store
+target/
+docker/*/
+*.DS_Store
+.project
+.classpath
+.settings
+# Package Files #
+*.jar
+*.war
+*.ear
+*.ipr
+*.iws
+bin/
+/bin/*
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+`*effectivePom.xml
+*reduced-pom.xml
+
+
+log*
+
