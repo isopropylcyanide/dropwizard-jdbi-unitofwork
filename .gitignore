@@ -21,7 +21,4 @@ bin/
 hs_err_pid*
 `*effectivePom.xml
 *reduced-pom.xml
-
-
 log*
-
