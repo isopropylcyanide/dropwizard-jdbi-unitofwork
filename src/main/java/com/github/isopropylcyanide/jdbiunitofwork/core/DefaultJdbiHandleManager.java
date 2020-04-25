@@ -1,6 +1,5 @@
 package com.github.isopropylcyanide.jdbiunitofwork.core;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
@@ -13,10 +12,13 @@ import org.skife.jdbi.v2.Handle;
  * Note: Not suitable for requests spanning multiple Dbi as the handle returned is different
  */
 @Slf4j
-@AllArgsConstructor
 public class DefaultJdbiHandleManager implements JdbiHandleManager {
 
     private final DBI dbi;
+
+    public DefaultJdbiHandleManager(DBI dbi) {
+        this.dbi = dbi;
+    }
 
     @Override
     public Handle get() {

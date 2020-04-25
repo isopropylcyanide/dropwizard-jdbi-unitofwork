@@ -1,7 +1,6 @@
 package com.github.isopropylcyanide.jdbiunitofwork.core;
 
 import com.google.common.reflect.AbstractInvocationHandler;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import org.skife.jdbi.v2.Handle;
@@ -10,13 +9,17 @@ import javax.annotation.Nonnull;
 import java.lang.reflect.Method;
 
 @SuppressWarnings({"UnstableApiUsage"})
-@AllArgsConstructor
 @Slf4j
 @EqualsAndHashCode(callSuper = false)
 public class ManagedHandleInvocationProxy<T> extends AbstractInvocationHandler {
 
     private final JdbiHandleManager handleManager;
     private final Class<T> underlying;
+
+    public ManagedHandleInvocationProxy(JdbiHandleManager handleManager, Class<T> underlying) {
+        this.handleManager = handleManager;
+        this.underlying = underlying;
+    }
 
     @Override
     public Object handleInvocation(@Nonnull Object proxy, Method method, @Nonnull Object[] args) throws Throwable {

@@ -1,7 +1,6 @@
 package com.github.isopropylcyanide.jdbiunitofwork.core;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.skife.jdbi.v2.DBI;
@@ -29,12 +28,15 @@ import java.util.concurrent.ThreadFactory;
  * Note: Not suitable when you can not set the name format for the newly spawned threads.
  **/
 @Slf4j
-@AllArgsConstructor
 public class LinkedRequestScopedJdbiHandleManager implements JdbiHandleManager {
 
     private static final String NAME_FORMAT = "[%s]-%%d";
     private final Map<String, Handle> parentThreadHandleMap = new ConcurrentHashMap<>();
     private final DBI dbi;
+
+    public LinkedRequestScopedJdbiHandleManager(DBI dbi) {
+        this.dbi = dbi;
+    }
 
     @Override
     public Handle get() {
