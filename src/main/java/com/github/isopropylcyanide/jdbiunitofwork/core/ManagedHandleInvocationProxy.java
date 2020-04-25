@@ -1,18 +1,27 @@
 package com.github.isopropylcyanide.jdbiunitofwork.core;
 
-import com.google.common.reflect.AbstractInvocationHandler;
-import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import org.skife.jdbi.v2.Handle;
 
-import javax.annotation.Nonnull;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-@SuppressWarnings({"UnstableApiUsage"})
+/**
+ * Implementation of {@link InvocationHandler} that attaches the underlying class
+ * to a handle obtained through {@link JdbiHandleManager} on every invocation. The
+ * fact that a new handle or a previously created handle will be returned depends
+ * upon the implementation of the {@link JdbiHandleManager}
+ * <p>
+ * Note: Attaching a handle to a class is an idempotent operation. If a handle H1
+ * is attached to a class, attaching it to the same class again serves no purpose.
+ * <p>
+ * Also delegates {@link Object#toString} to the real object instead of the proxy
+ */
 @Slf4j
-@EqualsAndHashCode(callSuper = false)
-public class ManagedHandleInvocationProxy<T> extends AbstractInvocationHandler {
+public class ManagedHandleInvocationProxy<T> implements InvocationHandler {
 
+    private static final Object[] NO_ARGS = {};
     private final JdbiHandleManager handleManager;
     private final Class<T> underlying;
 
@@ -21,17 +30,30 @@ public class ManagedHandleInvocationProxy<T> extends AbstractInvocationHandler {
         this.underlying = underlying;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * <ul>
+     * <li>{@code proxy.toString()} delegates to {@link Object#toString}
+     * <li>other method calls are dispatched to {@link #handleInvocation}.
+     * </ul>
+     */
     @Override
-    public Object handleInvocation(@Nonnull Object proxy, Method method, @Nonnull Object[] args) throws Throwable {
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        if (args == null) {
+            args = NO_ARGS;
+        }
+        if (args.length == 0 && method.getName().equals("toString")) {
+            return toString();
+        }
+        return handleInvocation(method, args);
+    }
+
+    private Object handleInvocation(Method method, Object[] args) throws IllegalAccessException, InvocationTargetException {
         Handle handle = handleManager.get();
         log.debug("{}.{} [{}] Thread Id [{}] with handle id [{}]", method.getDeclaringClass().getSimpleName(), method.getName(), underlying.getSimpleName(), Thread.currentThread().getId(), handle.hashCode());
 
         Object dao = handle.attach(underlying);
         return method.invoke(dao, args);
-    }
-
-    @Override
-    public String toString() {
-        return "Proxy[" + getClass().getSimpleName() + "]";
     }
 }
