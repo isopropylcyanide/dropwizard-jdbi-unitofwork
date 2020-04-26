@@ -23,6 +23,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <nexus.staging.maven.plugin.version>1.6.8</nexus.staging.maven.plugin.version>
 
         <!--Application-->
         <dropwizard.jdbi.version>1.3.20</dropwizard.jdbi.version>
@@ -87,6 +88,17 @@
         </dependency>
     </dependencies>
 
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
     <build>
         <plugins>
             <!--Jacoco Code Coverage Plugin-->
@@ -111,6 +123,19 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+
+            <!--Sonatype staging plugin<-->
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>${nexus.staging.maven.plugin.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                </configuration>
             </plugin>
 
             <!--Maven Surefire Plugin-->
@@ -150,5 +175,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
