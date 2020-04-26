@@ -26,7 +26,7 @@
         <surefire.version>2.19.1</surefire.version>
 
         <!--Application-->
-        <dropwizard.jdbi.unitofwork.version>1.0</dropwizard.jdbi.unitofwork.version>
+        <dropwizard.jdbi.unitofwork.version>1.0-SNAPSHOT</dropwizard.jdbi.unitofwork.version>
         <junit.version>4.13</junit.version>
         <jersey.test.framework.version>2.25.1</jersey.test.framework.version>
         <h2.version>1.4.197</h2.version>

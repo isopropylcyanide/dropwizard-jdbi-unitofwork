@@ -66,4 +66,9 @@ public class RequestScopedJdbiHandleManagerTest {
         manager.clear();
         verify(dbi, never()).open();
     }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testCreateThreadFactoryIsNotSupported() {
+        manager.createThreadFactory();
+    }
 }

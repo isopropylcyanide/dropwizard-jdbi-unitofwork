@@ -72,7 +72,7 @@ public class LinkedRequestScopedJdbiHandleManager implements JdbiHandleManager {
 
     @Override
     public void clear() {
-        String parent = getThreadIdentity();
+        String parent = getConversationId();
         Handle handle = parentThreadHandleMap.get(parent);
         if (handle != null) {
             handle.close();
@@ -84,22 +84,18 @@ public class LinkedRequestScopedJdbiHandleManager implements JdbiHandleManager {
     }
 
     @Override
-    public ThreadFactory createThreadFactory(String threadIdentity) {
-        String threadName = String.format(NAME_FORMAT, threadIdentity);
+    public ThreadFactory createThreadFactory() {
+        String threadName = String.format(NAME_FORMAT, getConversationId());
         return new ThreadFactoryBuilder().setNameFormat(threadName).build();
     }
 
     private Handle getHandle() {
-        String threadIdentity = getThreadIdentity();
+        String threadIdentity = getConversationId();
         if (parentThreadHandleMap.containsKey(threadIdentity)) {
             return parentThreadHandleMap.get(threadIdentity);
         }
         Handle handle = dbi.open();
         parentThreadHandleMap.putIfAbsent(threadIdentity, handle);
         return handle;
-    }
-
-    private String getThreadIdentity() {
-        return String.valueOf(Thread.currentThread().getId());
     }
 }

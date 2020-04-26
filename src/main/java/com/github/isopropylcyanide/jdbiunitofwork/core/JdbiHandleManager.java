@@ -33,18 +33,31 @@ public interface JdbiHandleManager {
     void clear();
 
     /**
-     * Provide a thread factory for the caller with some given identity. This can be used by the
-     * caller to create multiple threads, say, using {@link java.util.concurrent.ExecutorService}
-     * with a custom thread factory. The {@link JdbiHandleManager} can then use the thread factory
-     * to identify and manage handle use across multiple threads.
-     * <p>
-     * This feature should be supported in only those implementations of {@link JdbiHandleManager}
-     * which allow the handle to be safely used across multiple threads.
+     * Provide a thread factory for the caller with some identity represented by the
+     * {@link #getConversationId()}. This can be used by the caller to create multiple threads,
+     * say, using {@link java.util.concurrent.ExecutorService}. The {@link JdbiHandleManager} can
+     * then use the thread factory to identify and manage handle use across multiple threads.
      *
-     * @param threadIdentity a unique identifier for the calling thread
-     * @return the default thread factory in Executors
+     * @apiNote By default this throws a {@link UnsupportedOperationException}
+     * Implementations overriding this method must ensure that the conversation id is unique
      */
-    default ThreadFactory createThreadFactory(String threadIdentity) {
-        throw new UnsupportedOperationException("Not Supported");
+    default ThreadFactory createThreadFactory() {
+        throw new UnsupportedOperationException("Thread factory creation is not supported");
+    }
+
+    /**
+     * Provide a unique identifier for the conversation with a handle. No two identifiers
+     * should co exist at once during the application lifecycle or else handle corruption
+     * or misuse might occur.
+     * <p>
+     * Created Thread factory will rely on the the conversation id to reuse handles across
+     * multiple threads spawned off a request thread.
+     *
+     * @implNote hashcode can not be relied upon for providing a unique identifier
+     * due to possibility of collision. Instead opt for a monotonically increasing
+     * counter, such as the thread id.
+     */
+    default String getConversationId() {
+        return String.valueOf(Thread.currentThread().getId());
     }
 }

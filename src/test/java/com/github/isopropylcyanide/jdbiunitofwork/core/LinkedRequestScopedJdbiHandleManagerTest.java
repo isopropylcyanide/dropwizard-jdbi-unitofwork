@@ -59,9 +59,7 @@ public class LinkedRequestScopedJdbiHandleManagerTest {
     public void testGetSetsSameHandleForChildThreadsIfTheThreadFactoryIsPlaced() throws InterruptedException {
         when(dbi.open()).thenAnswer((Answer<Handle>) invocation -> mock(Handle.class));
         Handle parentHandle = manager.get();
-
-        String parentThreadIdentity = String.valueOf(Thread.currentThread().getId());
-        ThreadFactory threadFactory = manager.createThreadFactory(parentThreadIdentity);
+        ThreadFactory threadFactory = manager.createThreadFactory();
 
         final int NUM_THREADS = 6;
         CountDownLatch endGate = new CountDownLatch(NUM_THREADS);

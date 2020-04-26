@@ -65,8 +65,7 @@ public class CountingResource {
                                                                        @QueryParam("failOnce") boolean failOnce,
                                                                        @QueryParam("failOn") @DefaultValue("-1") int failOn,
                                                                        int size) throws Throwable {
-        String threadIdentity = String.valueOf(Thread.currentThread().getId());
-        ThreadFactory threadFactory = handleManager.createThreadFactory(threadIdentity);
+        ThreadFactory threadFactory = handleManager.createThreadFactory();
         ExecutorService service = Executors.newCachedThreadPool(threadFactory);
         insertMultiThreaded(numThreads, failOnce, failOn, size, service);
     }
