@@ -25,10 +25,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadFactory;
 
 /**
- * This implementation provides a handle scoped to a thread X and all other threads Y
- * All Y threads must follow a particular name format "{@value NAME_FORMAT}" where {@code %s}
- * should be replaced by the hashcode of the parent. This is the only way the manager can know
- * that the threads are common. Other ways include thread groups etc.
+ * This implementation provides a handle scoped to a thread and all other threads Y spawned from X
+ * All Y threads must follow a particular name format {@value NAME_FORMAT} where {@literal %s}
+ * should be replaced by the conversation id. This is one of the ways the manager can know of the
+ * grouping and establish reusability of handles across such grouped threads.
  * <p><br>
  * It can be used to service requests where only a single handle instance has to be used by multiple
  * threads that are spawned with the specified name format from an initial thread. Use this only

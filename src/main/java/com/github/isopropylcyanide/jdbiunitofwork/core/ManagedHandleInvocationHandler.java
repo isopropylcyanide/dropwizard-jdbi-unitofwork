@@ -22,15 +22,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * Implementation of {@link InvocationHandler} that attaches the underlying class
- * to a handle obtained through {@link JdbiHandleManager} on every invocation. The
- * fact that a new handle or a previously created handle will be returned depends
- * upon the implementation of the {@link JdbiHandleManager}
+ * Implementation of {@link InvocationHandler} that attaches the underlying class to a handle
+ * obtained through {@link JdbiHandleManager} on every invocation.
  * <p>
- * Note: Attaching a handle to a class is an idempotent operation. If a handle H1
- * is attached to a class, attaching it to the same class again serves no purpose.
+ * Note: Attaching a handle to a class is an idempotent operation. If a handle {@literal H}
+ * is attached to a class, attaching {@literal H} to the same class again serves no purpose.
  * <p>
- * Also delegates {@link Object#toString} to the real object instead of the proxy
+ * Also delegates {@link Object#toString} to the real object instead of the proxy which is
+ * helpful for debugging
  */
 public class ManagedHandleInvocationHandler<T> implements InvocationHandler {
 

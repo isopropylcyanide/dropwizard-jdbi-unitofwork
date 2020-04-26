@@ -21,8 +21,11 @@ import org.slf4j.LoggerFactory;
 /**
  * This implementation gets a new handle which is scoped to the thread requesting the handle.
  * <p>
- * It can be used to service requests which interact with multiple handles as part of a common transaction
- * Note: Not suitable for requests which spawn new threads as the scoped handle is not preserved.
+ * It can be used to service requests which interact with multiple SQL objects as part of a common
+ * transaction. All such SQL objects will be attached to the common handle.
+ *
+ * @apiNote Not suitable for requests which spawn new threads from the requesting thread as the scoped
+ * handle is not preserved. This implementation, therefore, does not support thread factory creation
  */
 public class RequestScopedJdbiHandleManager implements JdbiHandleManager {
 

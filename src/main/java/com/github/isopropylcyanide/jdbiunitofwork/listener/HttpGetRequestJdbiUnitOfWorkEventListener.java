@@ -20,6 +20,14 @@ import org.glassfish.jersey.server.monitoring.RequestEventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * This listener binds a transaction aspect to the currently serving GET request without creating
+ * any transaction context and is simply responsible for initialising and terminating handles
+ * upon successful start and end of request marked by Jersey request monitoring events
+ * {@code RESOURCE_METHOD_START} and {@code FINISHED} respectively
+ * <p><br>
+ * For creating a transaction context, see {@link NonHttpGetRequestJdbiUnitOfWorkEventListener}
+ */
 class HttpGetRequestJdbiUnitOfWorkEventListener implements RequestEventListener {
 
     private static final Logger log = LoggerFactory.getLogger(HttpGetRequestJdbiUnitOfWorkEventListener.class);

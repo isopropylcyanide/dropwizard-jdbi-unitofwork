@@ -28,6 +28,18 @@ import java.util.Set;
  * This application event listener establishes a new request event listener for every request.
  * The request listener triggers calls appropriate methods on a transaction aspect based on the
  * request lifecycle methods returned from Jersey
+ * <p>
+ * <p>
+ * {@code HttpMethod.GET} requests are assumed to be in non transaction boundary and are routed
+ * to {@link HttpGetRequestJdbiUnitOfWorkEventListener}
+ * <p>
+ * <p>
+ * Non {@code HttpMethod.GET} requests are assumed to be in a transaction boundary and are routed
+ * to {@link NonHttpGetRequestJdbiUnitOfWorkEventListener}
+ *
+ * @implNote For requests that never not require a connection with the database, such as ELB health
+ * checks or computate only use cases, opening and closing a handle is redundant and wasteful
+ * Such request URIs should be added in the set of {@link #excludedPaths}
  */
 public class JdbiUnitOfWorkApplicationEventListener implements ApplicationEventListener {
 

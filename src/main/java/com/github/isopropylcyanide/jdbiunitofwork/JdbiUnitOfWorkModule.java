@@ -30,7 +30,7 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"UnstableApiUsage", "unchecked"})
 public class JdbiUnitOfWorkModule extends AbstractModule {
 
     private static final Logger log = LoggerFactory.getLogger(JdbiUnitOfWorkModule.class);
@@ -57,7 +57,6 @@ public class JdbiUnitOfWorkModule extends AbstractModule {
         }
     }
 
-    @SuppressWarnings("UnstableApiUsage")
     private <T> T createNewProxy(Class<T> daoClass, JdbiHandleManager handleManager) {
         Object proxiedInstance = Reflection.newProxy(daoClass, new ManagedHandleInvocationHandler<>(handleManager, daoClass));
         return daoClass.cast(proxiedInstance);

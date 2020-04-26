@@ -18,7 +18,8 @@ import org.skife.jdbi.v2.Handle;
 import java.util.concurrent.ThreadFactory;
 
 /**
- * A {@link JdbiHandleManager} is used to manage the lifecycle of a {@link Handle}
+ * A {@link JdbiHandleManager} is used to provide the lifecycle of a {@link Handle} with respect
+ * to a given scope. A scope may be session based, request based or may be invoked on every run.
  */
 public interface JdbiHandleManager {
 
@@ -50,12 +51,12 @@ public interface JdbiHandleManager {
      * should co exist at once during the application lifecycle or else handle corruption
      * or misuse might occur.
      * <p>
-     * Created Thread factory will rely on the the conversation id to reuse handles across
+     * This can be relied upon by the {@link #createThreadFactory()} to reuse handles across
      * multiple threads spawned off a request thread.
      *
-     * @implNote hashcode can not be relied upon for providing a unique identifier
-     * due to possibility of collision. Instead opt for a monotonically increasing
-     * counter, such as the thread id.
+     * @implNote hashcode can not be relied upon for providing a unique identifier due to the
+     * possibility of collision. Instead opt for a monotonically increasing counter, such as
+     * the thread id.
      */
     default String getConversationId() {
         return String.valueOf(Thread.currentThread().getId());
