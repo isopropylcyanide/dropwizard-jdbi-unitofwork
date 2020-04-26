@@ -23,8 +23,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * When annotating a Jersey resource method, wraps the method in a Jdbi transaction context
  * associated with a valid handle.
- * <p>
- * <p>
+ * <br><br>
  * A transaction will automatically {@code begin} before the resource method is invoked,
  * {@code commit} if the method returned without throwing any exception and {@code rollback}
  * if an exception was thrown.

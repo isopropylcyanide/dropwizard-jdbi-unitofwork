@@ -24,10 +24,10 @@ import java.lang.reflect.Method;
 /**
  * Implementation of {@link InvocationHandler} that attaches the underlying class to a handle
  * obtained through {@link JdbiHandleManager} on every invocation.
- * <p>
+ * <br><br>
  * Note: Attaching a handle to a class is an idempotent operation. If a handle {@literal H}
  * is attached to a class, attaching {@literal H} to the same class again serves no purpose.
- * <p>
+ * <br><br>
  * Also delegates {@link Object#toString} to the real object instead of the proxy which is
  * helpful for debugging
  */

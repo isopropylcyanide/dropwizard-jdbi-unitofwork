@@ -29,14 +29,14 @@ import java.util.concurrent.ThreadFactory;
  * All Y threads must follow a particular name format {@value NAME_FORMAT} where {@literal %s}
  * should be replaced by the conversation id. This is one of the ways the manager can know of the
  * grouping and establish reusability of handles across such grouped threads.
- * <p><br>
+ * <br><br>
  * It can be used to service requests where only a single handle instance has to be used by multiple
  * threads that are spawned with the specified name format from an initial thread. Use this only
  * when you have complete control over the threads you create. The threads must not run once the
  * parent thread is returned to the pool or else the handles will be invalid or in other words
  * parent thread must block on the results of children.
  *
- * <p><br>
+ * <br>
  * It relies on the fact that the {@code Jdbi.Handle} is inherently thread safe and can be used to service
  * dao requests between multiple threads.
  * Note: Not suitable when you can not set the name format for the newly spawned threads.

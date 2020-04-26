@@ -25,11 +25,11 @@ import org.slf4j.LoggerFactory;
 /**
  * This listener binds a transaction aspect to the currently serving GET request by creating
  * a transaction context if and only if the resource method is annotated with {@link JdbiUnitOfWork}
- * <p><br>
+ * <br><br>
  * It is responsible for initialising and terminating handles as well as calling appropriate
  * transaction methods based on theJersey request monitoring events
  * {@code RESOURCE_METHOD_START}, {@code RESP_FILTERS_START}, {@code ON_EXCEPTION} and {@code FINISHED}
- * <p><br>
+ * <br><br>
  * For creating a access context without transactions, see {@link HttpGetRequestJdbiUnitOfWorkEventListener}
  */
 class NonHttpGetRequestJdbiUnitOfWorkEventListener implements RequestEventListener {

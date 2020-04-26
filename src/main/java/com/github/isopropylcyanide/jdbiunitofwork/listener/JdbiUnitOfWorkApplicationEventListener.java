@@ -28,12 +28,10 @@ import java.util.Set;
  * This application event listener establishes a new request event listener for every request.
  * The request listener triggers calls appropriate methods on a transaction aspect based on the
  * request lifecycle methods returned from Jersey
- * <p>
- * <p>
+ * <br><br>
  * {@code HttpMethod.GET} requests are assumed to be in non transaction boundary and are routed
  * to {@link HttpGetRequestJdbiUnitOfWorkEventListener}
- * <p>
- * <p>
+ * <br><br>
  * Non {@code HttpMethod.GET} requests are assumed to be in a transaction boundary and are routed
  * to {@link NonHttpGetRequestJdbiUnitOfWorkEventListener}
  *

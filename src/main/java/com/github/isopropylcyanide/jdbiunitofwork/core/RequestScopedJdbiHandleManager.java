@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This implementation gets a new handle which is scoped to the thread requesting the handle.
- * <p>
+ * <br><br>
  * It can be used to service requests which interact with multiple SQL objects as part of a common
  * transaction. All such SQL objects will be attached to the common handle.
  *
