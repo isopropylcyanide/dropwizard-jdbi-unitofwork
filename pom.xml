@@ -8,6 +8,17 @@
     <artifactId>dropwizard-jdbi-unitofwork</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>Dropwizard Jdbi Unit Of Work</name>
+    <description>Provides support for Unit Of Work annotations with a Jdbi Backend</description>
+    <url>https://github.com/isopropylcyanide/dropwizard-jdbi-unitofwork</url>
+
+    <developers>
+        <developer>
+            <name>Aman Garg</name>
+            <email>amangargcse@outlook.com</email>
+            <timezone>5</timezone>
+            <id>isopropylcyanide</id>
+        </developer>
+    </developers>
 
     <licenses>
         <license>
@@ -16,6 +27,30 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <scm>
+        <developerConnection>scm:git:git@github.com:isopropylcyanide/dropwizard-jdbi-unitofwork.git
+        </developerConnection>
+        <connection>scm:git@github.com:isopropylcyanide/dropwizard-jdbi-unitofwork.git</connection>
+        <url>https://github.com/isopropylcyanide/dropwizard-jdbi-unitofwork/tree/master</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/isopropylcyanide/dropwizard-jdbi-unitofwork/issues</url>
+    </issueManagement>
 
     <properties>
         <!--Build-->
@@ -88,16 +123,6 @@
         </dependency>
     </dependencies>
 
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
 
     <build>
         <plugins>
