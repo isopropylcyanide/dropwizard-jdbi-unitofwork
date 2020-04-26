@@ -39,7 +39,6 @@
         <surefire.version>2.19.1</surefire.version>
         <sonar.language>java</sonar.language>
         <jacoco.version>0.8.2</jacoco.version>
-        <sonar.exclusions>**/*Module.java</sonar.exclusions>
     </properties>
 
     <dependencies>

@@ -22,6 +22,8 @@ import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.SqlUpdate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
@@ -31,6 +33,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings("unchecked")
 public class JdbiUnitOfWorkModule extends AbstractModule {
 
+    private static final Logger log = LoggerFactory.getLogger(JdbiUnitOfWorkModule.class);
     private JdbiHandleManager handleManager;
     private Set<String> daoPackages;
 
@@ -49,6 +52,7 @@ public class JdbiUnitOfWorkModule extends AbstractModule {
         ).flatMap(Collection::stream).collect(Collectors.toSet());
 
         for (Class klass : allDaoClasses) {
+            log.debug("Binding class [{}] with proxy handler [{}] ", klass.getSimpleName(), handleManager.getClass().getSimpleName());
             bind(klass).toInstance(createNewProxy(klass, handleManager));
         }
     }
