@@ -69,7 +69,7 @@ This project is available on Maven Central. To add it to your project you can ad
 - At the backend, all `Jdbi` objects such as `Dao` or `SqlObjects` are proxied behind a `JdbiHandleManager`
 - `JdbiHandleManager` contract specifies the `get` and `clear` of the actual handles to the calling thread.
 
-![image](https://user-images.githubusercontent.com/12872673/80287874-a0e9d080-8751-11ea-8aab-ece79acaa1e0.png)
+![image](https://user-images.githubusercontent.com/12872673/80345369-a563d580-8886-11ea-9fd9-3b659ac1d75b.png)
 
 
 ## Support
