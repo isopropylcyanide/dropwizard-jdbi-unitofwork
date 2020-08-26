@@ -69,7 +69,7 @@
         <google.guice.version>4.2.0</google.guice.version>
         <mockito.core.version>3.5.7</mockito.core.version>
         <junit.version>4.12</junit.version>
-        <slf4j.version>1.7.25</slf4j.version>
+        <slf4j.version>1.7.30</slf4j.version>
 
         <!--Sonar / Code Coverage-->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
