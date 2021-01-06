@@ -64,7 +64,7 @@
         <maven.gpg.plugin.version>1.6</maven.gpg.plugin.version>
 
         <!--Application-->
-        <dropwizard.jdbi.version>1.3.28</dropwizard.jdbi.version>
+        <dropwizard.jdbi.version>1.3.29</dropwizard.jdbi.version>
         <org.reflections.version>0.9.12</org.reflections.version>
         <google.guice.version>4.2.3</google.guice.version>
         <mockito.core.version>3.7.0</mockito.core.version>
