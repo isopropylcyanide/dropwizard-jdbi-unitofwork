@@ -9,7 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Answers;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.skife.jdbi.v2.Handle;
 
 import javax.ws.rs.HttpMethod;
 import java.util.Set;
@@ -23,49 +25,47 @@ import static org.mockito.Mockito.when;
 
 public class JdbiUnitOfWorkApplicationEventListenerTest {
 
-    @Mock
-    private JdbiHandleManager handleManager;
-
-    @Mock(answer = Answers.RETURNS_DEEP_STUBS)
-    private RequestEvent mockRequestEvent;
+    private RequestEvent requestEvent;
 
     private JdbiUnitOfWorkApplicationEventListener applicationListener;
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        JdbiHandleManager handleManager = mock(JdbiHandleManager.class);
+        when(handleManager.get()).thenReturn(mock(Handle.class));
+        requestEvent = mock(RequestEvent.class, Mockito.RETURNS_DEEP_STUBS);
         Set<String> excludedPaths = Sets.newHashSet("excluded");
         this.applicationListener = new JdbiUnitOfWorkApplicationEventListener(handleManager, excludedPaths);
     }
 
     @Test
     public void testOnEventDoesNothing() {
-        ApplicationEvent mockEvent = mock(ApplicationEvent.class);
-        applicationListener.onEvent(mockEvent);
-        verify(mockEvent, times(1)).getType();
+        ApplicationEvent applicationEvent = mock(ApplicationEvent.class);
+        applicationListener.onEvent(applicationEvent);
+        verify(applicationEvent, times(1)).getType();
     }
 
     @Test
     public void testOnRequestDoesNothingWhenRequestEventPathIsExcluded() {
-        when(mockRequestEvent.getUriInfo().getPath()).thenReturn("excluded");
-        assertNull(applicationListener.onRequest(mockRequestEvent));
+        when(requestEvent.getUriInfo().getPath()).thenReturn("excluded");
+        assertNull(applicationListener.onRequest(requestEvent));
     }
 
     @Test
     public void testOnRequestReturnsCorrectEventListenerWhenMethodTypeIsGet() {
-        when(mockRequestEvent.getUriInfo().getPath()).thenReturn("exclude-me-not");
-        when(mockRequestEvent.getContainerRequest().getMethod()).thenReturn(HttpMethod.GET);
+        when(requestEvent.getUriInfo().getPath()).thenReturn("exclude-me-not");
+        when(requestEvent.getContainerRequest().getMethod()).thenReturn(HttpMethod.GET);
 
-        RequestEventListener eventListener = applicationListener.onRequest(mockRequestEvent);
+        RequestEventListener eventListener = applicationListener.onRequest(requestEvent);
         assertEquals(HttpGetRequestJdbiUnitOfWorkEventListener.class, eventListener.getClass());
     }
 
     @Test
     public void testOnRequestReturnsCorrectEventListenerWhenMethodTypeIsNotGet() {
-        when(mockRequestEvent.getUriInfo().getPath()).thenReturn("exclude-me-not");
-        when(mockRequestEvent.getContainerRequest().getMethod()).thenReturn(HttpMethod.PUT);
+        when(requestEvent.getUriInfo().getPath()).thenReturn("exclude-me-not");
+        when(requestEvent.getContainerRequest().getMethod()).thenReturn(HttpMethod.PUT);
 
-        RequestEventListener eventListener = applicationListener.onRequest(mockRequestEvent);
+        RequestEventListener eventListener = applicationListener.onRequest(requestEvent);
         assertEquals(NonHttpGetRequestJdbiUnitOfWorkEventListener.class, eventListener.getClass());
     }
 }
