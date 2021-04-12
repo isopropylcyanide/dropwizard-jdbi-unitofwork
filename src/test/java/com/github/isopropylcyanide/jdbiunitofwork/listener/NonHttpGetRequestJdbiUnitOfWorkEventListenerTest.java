@@ -1,6 +1,11 @@
 package com.github.isopropylcyanide.jdbiunitofwork.listener;
 
+import javax.ws.rs.core.MediaType;
+
+import com.github.isopropylcyanide.jdbiunitofwork.JdbiUnitOfWork;
 import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiHandleManager;
+import org.glassfish.jersey.server.model.Resource;
+import org.glassfish.jersey.server.model.ResourceMethod;
 import org.glassfish.jersey.server.monitoring.RequestEvent;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +26,8 @@ public class NonHttpGetRequestJdbiUnitOfWorkEventListenerTest {
 
     private JdbiHandleManager handleManager;
 
+    private Handle handle;
+
     private RequestEvent requestEvent;
 
     private NonHttpGetRequestJdbiUnitOfWorkEventListener listener;
@@ -28,7 +35,8 @@ public class NonHttpGetRequestJdbiUnitOfWorkEventListenerTest {
     @Before
     public void setUp() {
         handleManager = mock(JdbiHandleManager.class);
-        when(handleManager.get()).thenReturn(mock(Handle.class));
+        handle = mock(Handle.class);
+        when(handleManager.get()).thenReturn(handle);
         requestEvent = mock(RequestEvent.class, Mockito.RETURNS_DEEP_STUBS);
         when(requestEvent.getContainerRequest().getMethod()).thenReturn("PUT");
         this.listener = new NonHttpGetRequestJdbiUnitOfWorkEventListener(handleManager);
@@ -81,5 +89,55 @@ public class NonHttpGetRequestJdbiUnitOfWorkEventListenerTest {
 
         listener.onEvent(requestEvent);
         verify(handleManager, times(1)).clear();
+    }
+
+    @Test
+    public void testHandleIsInitialisedWhenEventTypeIsResourceMethodStartTransactional() throws NoSuchMethodException {
+        when(requestEvent.getType()).thenReturn(RESOURCE_METHOD_START);
+        when(requestEvent.getUriInfo().getMatchedResourceMethod()).thenReturn(getMockResourceMethod());
+
+        listener.onEvent(requestEvent);
+        verify(handleManager, times(1)).get();
+        verify(handle, times(1)).begin();
+    }
+
+    @Test
+    public void testHandleIsNotCommittedWhenEventTypeIsRespFilterStartTransactional() throws NoSuchMethodException {
+        when(requestEvent.getType()).thenReturn(RESOURCE_METHOD_START).thenReturn(RESP_FILTERS_START);
+        when(requestEvent.getUriInfo().getMatchedResourceMethod()).thenReturn(getMockResourceMethod());
+
+        listener.onEvent(requestEvent);
+        verify(handleManager, times(1)).get();
+
+        listener.onEvent(requestEvent);
+        verify(handle, times(1)).commit();
+    }
+
+    @Test
+    public void testHandleIsNotRolledBackWhenEventTypeIsOnExceptionTransactional() throws NoSuchMethodException {
+        when(requestEvent.getType()).thenReturn(RESOURCE_METHOD_START).thenReturn(ON_EXCEPTION);
+        when(requestEvent.getUriInfo().getMatchedResourceMethod()).thenReturn(getMockResourceMethod());
+
+        listener.onEvent(requestEvent);
+        verify(handleManager, times(1)).get();
+
+        listener.onEvent(requestEvent);
+        verify(handle, times(1)).rollback();
+    }
+
+    private ResourceMethod getMockResourceMethod() throws NoSuchMethodException {
+        return Resource
+                .builder()
+                .addMethod("PUT")
+                .produces(MediaType.TEXT_PLAIN_TYPE)
+                .handledBy(ResourceMethodStub.class, ResourceMethodStub.class.getMethod("apply"))
+                .build();
+    }
+
+    static class ResourceMethodStub {
+        @JdbiUnitOfWork
+        public String apply() {
+            return "";
+        }
     }
 }
