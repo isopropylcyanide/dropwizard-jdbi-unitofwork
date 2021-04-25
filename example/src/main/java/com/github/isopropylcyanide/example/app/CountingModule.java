@@ -1,6 +1,5 @@
 package com.github.isopropylcyanide.example.app;
 
-import com.github.isopropylcyanide.jdbiunitofwork.JdbiUnitOfWorkModule;
 import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiHandleManager;
 import com.github.isopropylcyanide.jdbiunitofwork.core.LinkedRequestScopedJdbiHandleManager;
 import com.google.common.collect.Sets;
@@ -11,7 +10,7 @@ import java.util.Set;
 
 public class CountingModule extends AbstractModule {
 
-    private DBI dbi;
+    private final DBI dbi;
 
     CountingModule(DBI dbi) {
         this.dbi = dbi;

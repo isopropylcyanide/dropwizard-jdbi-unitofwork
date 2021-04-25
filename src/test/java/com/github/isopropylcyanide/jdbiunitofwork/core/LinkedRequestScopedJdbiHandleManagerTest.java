@@ -2,8 +2,6 @@ package com.github.isopropylcyanide.jdbiunitofwork.core;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.stubbing.Answer;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
@@ -23,14 +21,13 @@ import static org.mockito.Mockito.when;
 
 public class LinkedRequestScopedJdbiHandleManagerTest {
 
-    @Mock
     private DBI dbi;
 
     private LinkedRequestScopedJdbiHandleManager manager;
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        dbi = mock(DBI.class);
         this.manager = new LinkedRequestScopedJdbiHandleManager(dbi);
     }
 

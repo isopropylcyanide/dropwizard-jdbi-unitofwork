@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.isopropylcyanide.jdbiunitofwork;
+package com.github.isopropylcyanide.example.app;
 
 import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiHandleManager;
 import com.github.isopropylcyanide.jdbiunitofwork.core.ManagedHandleInvocationHandler;
@@ -34,8 +34,8 @@ import java.util.stream.Collectors;
 public class JdbiUnitOfWorkModule extends AbstractModule {
 
     private static final Logger log = LoggerFactory.getLogger(JdbiUnitOfWorkModule.class);
-    private JdbiHandleManager handleManager;
-    private Set<String> daoPackages;
+    private final JdbiHandleManager handleManager;
+    private final Set<String> daoPackages;
 
     public JdbiUnitOfWorkModule(JdbiHandleManager handleManager, Set<String> daoPackages) {
         this.handleManager = handleManager;

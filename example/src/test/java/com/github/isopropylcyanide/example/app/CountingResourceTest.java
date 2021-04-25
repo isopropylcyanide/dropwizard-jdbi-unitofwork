@@ -123,7 +123,7 @@ public class CountingResourceTest extends JerseyTest {
     }
 
     @Test
-    public void testInsertWithFailureAtomicRollsBackOnlyOneHandleForConcurrentThreadsWhenThreadFactoryIsNotSet() throws InterruptedException {
+    public void testInsertWithFailureAtomicRollsBackOnlyOneHandleForConcurrentThreadsWhenThreadFactoryIsNotSet() {
         int numThread = 2;
         int countPerThread = 5;
         int failOn = countPerThread - 1;
@@ -142,7 +142,7 @@ public class CountingResourceTest extends JerseyTest {
     }
 
     @Test
-    public void testInsertWithFailureAtomicRollsBackTheOnlyHandleForNConcurrentThreadsWhenThreadFactoryIsSet() throws InterruptedException {
+    public void testInsertWithFailureAtomicRollsBackTheOnlyHandleForNConcurrentThreadsWhenThreadFactoryIsSet() {
         int numThread = 2;
         int countPerThread = 5;
         int failOn = countPerThread - 1;
