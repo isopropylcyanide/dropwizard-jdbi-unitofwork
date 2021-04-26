@@ -6,7 +6,7 @@
 
     <groupId>com.github.isopropylcyanide</groupId>
     <artifactId>dropwizard-jdbi-unitofwork</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
     <name>Dropwizard Jdbi Unit Of Work</name>
     <description>Provides support for Unit Of Work annotations with a Jdbi Backend</description>
     <url>https://github.com/isopropylcyanide/dropwizard-jdbi-unitofwork</url>
@@ -67,7 +67,7 @@
         <dropwizard.jdbi.version>1.3.29</dropwizard.jdbi.version>
         <org.reflections.version>0.9.12</org.reflections.version>
         <mockito.core.version>3.9.0</mockito.core.version>
-        <junit.version>4.13.1</junit.version>
+        <junit.version>4.13.2</junit.version>
         <slf4j.version>1.7.30</slf4j.version>
 
         <!--Sonar / Code Coverage-->
