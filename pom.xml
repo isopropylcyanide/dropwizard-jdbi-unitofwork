@@ -6,7 +6,7 @@
 
     <groupId>com.github.isopropylcyanide</groupId>
     <artifactId>dropwizard-jdbi-unitofwork</artifactId>
-    <version>1.0</version>
+    <version>1.1</version>
     <name>Dropwizard Jdbi Unit Of Work</name>
     <description>Provides support for Unit Of Work annotations with a Jdbi Backend</description>
     <url>https://github.com/isopropylcyanide/dropwizard-jdbi-unitofwork</url>
