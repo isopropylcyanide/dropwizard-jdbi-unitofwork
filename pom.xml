@@ -76,7 +76,7 @@
         <sonar.jacoco.reportPaths>${project.basedir}/target/jacoco.exec</sonar.jacoco.reportPaths>
         <surefire.version>2.22.2</surefire.version>
         <sonar.language>java</sonar.language>
-        <jacoco.version>0.8.6</jacoco.version>
+        <jacoco.version>0.8.7</jacoco.version>
     </properties>
 
     <dependencies>
