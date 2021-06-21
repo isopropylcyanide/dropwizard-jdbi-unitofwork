@@ -13,9 +13,9 @@
  */
 package com.github.isopropylcyanide.jdbiunitofwork.core;
 
-import org.skife.jdbi.v2.Handle;
-
 import java.util.concurrent.ThreadFactory;
+
+import org.jdbi.v3.core.Handle;
 
 /**
  * A {@link JdbiHandleManager} is used to provide the lifecycle of a {@link Handle} with respect

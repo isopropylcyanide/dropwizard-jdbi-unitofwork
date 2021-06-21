@@ -2,9 +2,9 @@ package com.github.isopropylcyanide.jdbiunitofwork.listener;
 
 import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiHandleManager;
 import org.glassfish.jersey.server.monitoring.RequestEvent;
+import org.jdbi.v3.core.Handle;
 import org.junit.Before;
 import org.junit.Test;
-import org.skife.jdbi.v2.Handle;
 
 import static org.glassfish.jersey.server.monitoring.RequestEvent.Type.FINISHED;
 import static org.glassfish.jersey.server.monitoring.RequestEvent.Type.RESOURCE_METHOD_START;

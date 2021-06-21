@@ -13,7 +13,7 @@
  */
 package com.github.isopropylcyanide.jdbiunitofwork.core;
 
-import org.skife.jdbi.v2.Handle;
+import org.jdbi.v3.core.Handle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

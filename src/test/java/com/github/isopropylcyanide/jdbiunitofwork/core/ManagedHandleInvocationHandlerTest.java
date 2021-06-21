@@ -1,9 +1,9 @@
 package com.github.isopropylcyanide.jdbiunitofwork.core;
 
 import com.google.common.reflect.Reflection;
+import org.jdbi.v3.core.Handle;
 import org.junit.Before;
 import org.junit.Test;
-import org.skife.jdbi.v2.Handle;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;

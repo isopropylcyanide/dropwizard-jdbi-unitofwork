@@ -1,10 +1,10 @@
 package com.github.isopropylcyanide.jdbiunitofwork.core;
 
+import org.jdbi.v3.core.Handle;
+import org.jdbi.v3.core.Jdbi;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.stubbing.Answer;
-import org.skife.jdbi.v2.DBI;
-import org.skife.jdbi.v2.Handle;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -21,40 +21,40 @@ import static org.mockito.Mockito.when;
 
 public class LinkedRequestScopedJdbiHandleManagerTest {
 
-    private DBI dbi;
+    private Jdbi jdbi;
 
     private LinkedRequestScopedJdbiHandleManager manager;
 
     @Before
     public void setUp() {
-        dbi = mock(DBI.class);
-        this.manager = new LinkedRequestScopedJdbiHandleManager(dbi);
+        jdbi = mock(Jdbi.class);
+        this.manager = new LinkedRequestScopedJdbiHandleManager(jdbi);
     }
 
     @Test
     public void testGetSetsSameHandleForMultipleInvocationsInSameThread() {
-        when(dbi.open()).thenAnswer((Answer<Handle>) invocation -> mock(Handle.class));
+        when(jdbi.open()).thenAnswer((Answer<Handle>) invocation -> mock(Handle.class));
         Handle firstHandle = manager.get();
         Handle secondHandle = manager.get();
         assertEquals(firstHandle, secondHandle);
 
-        verify(dbi, times(1)).open();
+        verify(jdbi, times(1)).open();
     }
 
     @Test
     public void testGetSetsNewHandleForEachThread() throws InterruptedException {
-        when(dbi.open()).thenAnswer((Answer<Handle>) invocation -> mock(Handle.class));
+        when(jdbi.open()).thenAnswer((Answer<Handle>) invocation -> mock(Handle.class));
         Handle handleThreadA = manager.get();
 
         Thread newHandleInvokerThread = new Thread(() -> assertNotEquals(handleThreadA, manager.get()));
         newHandleInvokerThread.start();
         newHandleInvokerThread.join();
-        verify(dbi, times(2)).open();
+        verify(jdbi, times(2)).open();
     }
 
     @Test
     public void testGetSetsSameHandleForChildThreadsIfTheThreadFactoryIsPlaced() throws InterruptedException {
-        when(dbi.open()).thenAnswer((Answer<Handle>) invocation -> mock(Handle.class));
+        when(jdbi.open()).thenAnswer((Answer<Handle>) invocation -> mock(Handle.class));
         Handle parentHandle = manager.get();
         ThreadFactory threadFactory = manager.createThreadFactory();
 
@@ -71,12 +71,12 @@ public class LinkedRequestScopedJdbiHandleManagerTest {
         }
         service.shutdown();
         endGate.await();
-        verify(dbi, times(1)).open();
+        verify(jdbi, times(1)).open();
     }
 
     @Test
     public void testGetSetsNewHandleForChildThreadsIfTheThreadFactoryIsNotPlaced() throws InterruptedException {
-        when(dbi.open()).thenAnswer((Answer<Handle>) invocation -> mock(Handle.class));
+        when(jdbi.open()).thenAnswer((Answer<Handle>) invocation -> mock(Handle.class));
         Handle parentHandle = manager.get();
 
         final int NUM_THREADS = 5;
@@ -92,23 +92,23 @@ public class LinkedRequestScopedJdbiHandleManagerTest {
         }
         service.shutdown();
         endGate.await();
-        verify(dbi, times(NUM_THREADS + 1)).open();
+        verify(jdbi, times(NUM_THREADS + 1)).open();
     }
 
     @Test
     public void testClearClosesHandleAndClearsHandle() {
         Handle mockHandle = mock(Handle.class);
-        when(dbi.open()).thenReturn(mockHandle);
+        when(jdbi.open()).thenReturn(mockHandle);
 
         manager.get();
         manager.clear();
-        verify(dbi, times(1)).open();
+        verify(jdbi, times(1)).open();
         verify(mockHandle, times(1)).close();
     }
 
     @Test
     public void testClearDoesNothingWhenHandleIsNull() {
         manager.clear();
-        verify(dbi, never()).open();
+        verify(jdbi, never()).open();
     }
 }
