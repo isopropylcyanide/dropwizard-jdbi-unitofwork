@@ -13,8 +13,8 @@
  */
 package com.github.isopropylcyanide.jdbiunitofwork.core;
 
-import org.skife.jdbi.v2.DBI;
-import org.skife.jdbi.v2.Handle;
+import org.jdbi.v3.core.Handle;
+import org.jdbi.v3.core.Jdbi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,15 +32,15 @@ import org.slf4j.LoggerFactory;
 public class DefaultJdbiHandleManager implements JdbiHandleManager {
 
     private static final Logger log = LoggerFactory.getLogger(DefaultJdbiHandleManager.class);
-    private final DBI dbi;
+    private final Jdbi jdbi;
 
-    public DefaultJdbiHandleManager(DBI dbi) {
-        this.dbi = dbi;
+    public DefaultJdbiHandleManager(Jdbi jdbi) {
+        this.jdbi = jdbi;
     }
 
     @Override
     public Handle get() {
-        Handle handle = dbi.open();
+        Handle handle = jdbi.open();
         log.debug("handle [{}] : Thread Id [{}]", handle.hashCode(), Thread.currentThread().getId());
         return handle;
     }

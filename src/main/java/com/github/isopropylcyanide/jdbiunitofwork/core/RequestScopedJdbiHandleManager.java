@@ -13,8 +13,8 @@
  */
 package com.github.isopropylcyanide.jdbiunitofwork.core;
 
-import org.skife.jdbi.v2.DBI;
-import org.skife.jdbi.v2.Handle;
+import org.jdbi.v3.core.Handle;
+import org.jdbi.v3.core.Jdbi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,17 +30,17 @@ import org.slf4j.LoggerFactory;
 public class RequestScopedJdbiHandleManager implements JdbiHandleManager {
 
     private static final Logger log = LoggerFactory.getLogger(RequestScopedJdbiHandleManager.class);
-    private final DBI dbi;
+    private final Jdbi jdbi;
     private final ThreadLocal<Handle> threadLocal = new ThreadLocal<>();
 
-    public RequestScopedJdbiHandleManager(DBI dbi) {
-        this.dbi = dbi;
+    public RequestScopedJdbiHandleManager(Jdbi jdbi) {
+        this.jdbi = jdbi;
     }
 
     @Override
     public Handle get() {
         if (threadLocal.get() == null) {
-            threadLocal.set(dbi.open());
+            threadLocal.set(jdbi.open());
         }
         Handle handle = threadLocal.get();
         log.debug("handle [{}] : Thread Id [{}]", handle.hashCode(), Thread.currentThread().getId());

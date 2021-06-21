@@ -5,13 +5,13 @@ import com.google.common.collect.Sets;
 import org.glassfish.jersey.server.monitoring.ApplicationEvent;
 import org.glassfish.jersey.server.monitoring.RequestEvent;
 import org.glassfish.jersey.server.monitoring.RequestEventListener;
+import org.jdbi.v3.core.Handle;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Answers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.skife.jdbi.v2.Handle;
 
 import javax.ws.rs.HttpMethod;
 import java.util.Set;
