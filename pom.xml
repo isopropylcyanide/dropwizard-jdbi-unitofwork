@@ -68,7 +68,7 @@
         <org.reflections.version>0.9.12</org.reflections.version>
         <mockito.core.version>3.9.0</mockito.core.version>
         <junit.version>4.13.2</junit.version>
-        <slf4j.version>1.7.30</slf4j.version>
+        <slf4j.version>1.7.32</slf4j.version>
 
         <!--Sonar / Code Coverage-->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
