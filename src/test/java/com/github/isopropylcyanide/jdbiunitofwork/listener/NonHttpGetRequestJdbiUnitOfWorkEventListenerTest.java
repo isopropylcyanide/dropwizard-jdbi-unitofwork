@@ -7,10 +7,10 @@ import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiHandleManager;
 import org.glassfish.jersey.server.model.Resource;
 import org.glassfish.jersey.server.model.ResourceMethod;
 import org.glassfish.jersey.server.monitoring.RequestEvent;
+import org.jdbi.v3.core.Handle;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.skife.jdbi.v2.Handle;
 
 import static org.glassfish.jersey.server.monitoring.RequestEvent.Type.FINISHED;
 import static org.glassfish.jersey.server.monitoring.RequestEvent.Type.ON_EXCEPTION;
