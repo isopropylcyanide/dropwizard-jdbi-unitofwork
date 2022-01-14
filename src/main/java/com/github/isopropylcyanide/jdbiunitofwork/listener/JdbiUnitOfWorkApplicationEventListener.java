@@ -21,6 +21,7 @@ import org.glassfish.jersey.server.monitoring.RequestEventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nullable;
 import javax.ws.rs.HttpMethod;
 import java.util.Set;
 
@@ -41,7 +42,7 @@ import java.util.Set;
  */
 public class JdbiUnitOfWorkApplicationEventListener implements ApplicationEventListener {
 
-    private static final Logger log = LoggerFactory.getLogger(JdbiUnitOfWorkApplicationEventListener.class);
+    private  final Logger log = LoggerFactory.getLogger(JdbiUnitOfWorkApplicationEventListener.class);
     private final JdbiHandleManager handleManager;
     private final Set<String> excludedPaths;
 
@@ -56,6 +57,7 @@ public class JdbiUnitOfWorkApplicationEventListener implements ApplicationEventL
     }
 
     @Override
+    @Nullable
     public RequestEventListener onRequest(RequestEvent event) {
         String path = event.getUriInfo().getPath();
         if (excludedPaths.stream().anyMatch(path::contains)) {

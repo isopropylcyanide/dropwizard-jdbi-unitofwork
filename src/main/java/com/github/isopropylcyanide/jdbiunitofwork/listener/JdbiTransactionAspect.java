@@ -11,8 +11,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.isopropylcyanide.jdbiunitofwork.core;
+package com.github.isopropylcyanide.jdbiunitofwork.listener;
 
+import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiHandleManager;
 import org.skife.jdbi.v2.Handle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,20 +27,16 @@ import org.slf4j.LoggerFactory;
  */
 public class JdbiTransactionAspect {
 
-    private static final Logger log = LoggerFactory.getLogger(JdbiTransactionAspect.class);
+    private final Logger log = LoggerFactory.getLogger(JdbiTransactionAspect.class);
     private final JdbiHandleManager handleManager;
-    private Handle handle;
 
     public JdbiTransactionAspect(JdbiHandleManager handleManager) {
         this.handleManager = handleManager;
     }
 
-    public void initHandle() {
-        handle = handleManager.get();
-    }
-
     public void begin() {
         try {
+            Handle handle = handleManager.get();
             handle.begin();
             log.debug("Begin Transaction Thread Id [{}] has handle id [{}] Transaction {} Level {}", Thread.currentThread().getId(), handle.hashCode(), handle.isInTransaction(), handle.getTransactionIsolationLevel());
 
@@ -50,6 +47,7 @@ public class JdbiTransactionAspect {
     }
 
     public void commit() {
+        Handle handle = handleManager.get();
         if (handle == null) {
             log.debug("Handle was found to be null during commit for Thread Id [{}]. It might have already been closed", Thread.currentThread().getId());
             return;
@@ -65,6 +63,7 @@ public class JdbiTransactionAspect {
     }
 
     public void rollback() {
+        Handle handle = handleManager.get();
         if (handle == null) {
             log.debug("Handle was found to be null during rollback for [{}]", Thread.currentThread().getId());
             return;
@@ -78,10 +77,6 @@ public class JdbiTransactionAspect {
     }
 
     public void terminateHandle() {
-        try {
-            handleManager.clear();
-        } finally {
-            handle = null;
-        }
+        handleManager.clear();
     }
 }

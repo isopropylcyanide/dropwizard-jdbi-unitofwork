@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
  */
 public class DefaultJdbiHandleManager implements JdbiHandleManager {
 
-    private static final Logger log = LoggerFactory.getLogger(DefaultJdbiHandleManager.class);
+    private final Logger log = LoggerFactory.getLogger(DefaultJdbiHandleManager.class);
     private final DBI dbi;
 
     public DefaultJdbiHandleManager(DBI dbi) {

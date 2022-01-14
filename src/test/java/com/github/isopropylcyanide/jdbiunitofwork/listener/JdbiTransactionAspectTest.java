@@ -1,5 +1,6 @@
-package com.github.isopropylcyanide.jdbiunitofwork.core;
+package com.github.isopropylcyanide.jdbiunitofwork.listener;
 
+import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiHandleManager;
 import org.junit.Before;
 import org.junit.Test;
 import org.skife.jdbi.v2.Handle;
@@ -29,16 +30,7 @@ public class JdbiTransactionAspectTest {
     }
 
     @Test
-    public void testInitHandleWorksAsExpected() {
-        aspect.initHandle();
-
-        verify(handleManager, times(1)).get();
-    }
-
-    @Test
     public void testBeginWhenHandleBeginThrowsException() {
-        aspect.initHandle();
-
         when(mockHandle.begin()).thenThrow(IllegalArgumentException.class);
         assertThrows(IllegalArgumentException.class, () -> aspect.begin());
         verify(handleManager, times(1)).clear();
@@ -47,8 +39,6 @@ public class JdbiTransactionAspectTest {
 
     @Test
     public void testBeginWorksAsExpected() {
-        aspect.initHandle();
-
         doReturn(mockHandle).when(mockHandle).begin();
         aspect.begin();
 
@@ -67,8 +57,6 @@ public class JdbiTransactionAspectTest {
 
     @Test
     public void testCommitWhenHandleCommitThrowsException() {
-        aspect.initHandle();
-
         when(mockHandle.commit()).thenThrow(IllegalArgumentException.class);
         assertThrows(IllegalArgumentException.class, () -> aspect.commit());
         verify(mockHandle, times(1)).rollback();
@@ -76,8 +64,6 @@ public class JdbiTransactionAspectTest {
 
     @Test
     public void testCommitWorksAsExpected() {
-        aspect.initHandle();
-
         doReturn(mockHandle).when(mockHandle).commit();
         aspect.commit();
 
@@ -94,8 +80,6 @@ public class JdbiTransactionAspectTest {
 
     @Test
     public void testRollbackWhenHandleRollbackThrowsException() {
-        aspect.initHandle();
-
         when(mockHandle.rollback()).thenThrow(IllegalArgumentException.class);
         assertThrows(IllegalArgumentException.class, () -> aspect.rollback());
         verify(mockHandle, times(1)).rollback();
@@ -103,8 +87,6 @@ public class JdbiTransactionAspectTest {
 
     @Test
     public void testRollbackWorksAsExpected() {
-        aspect.initHandle();
-
         doReturn(mockHandle).when(mockHandle).rollback();
         aspect.rollback();
 
@@ -121,9 +103,7 @@ public class JdbiTransactionAspectTest {
 
     @Test
     public void testTerminateHandleWorksAsExpected() {
-        aspect.initHandle();
         aspect.terminateHandle();
-
         verify(handleManager, times(1)).clear();
     }
 }

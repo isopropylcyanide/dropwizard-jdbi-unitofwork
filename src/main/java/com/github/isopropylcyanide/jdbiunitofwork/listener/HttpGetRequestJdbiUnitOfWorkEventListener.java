@@ -14,7 +14,6 @@
 package com.github.isopropylcyanide.jdbiunitofwork.listener;
 
 import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiHandleManager;
-import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiTransactionAspect;
 import org.glassfish.jersey.server.monitoring.RequestEvent;
 import org.glassfish.jersey.server.monitoring.RequestEventListener;
 import org.slf4j.Logger;
@@ -30,7 +29,7 @@ import org.slf4j.LoggerFactory;
  */
 class HttpGetRequestJdbiUnitOfWorkEventListener implements RequestEventListener {
 
-    private static final Logger log = LoggerFactory.getLogger(HttpGetRequestJdbiUnitOfWorkEventListener.class);
+    private final Logger log = LoggerFactory.getLogger(HttpGetRequestJdbiUnitOfWorkEventListener.class);
     private final JdbiTransactionAspect transactionAspect;
 
     HttpGetRequestJdbiUnitOfWorkEventListener(JdbiHandleManager handleManager) {
@@ -42,10 +41,7 @@ class HttpGetRequestJdbiUnitOfWorkEventListener implements RequestEventListener 
         RequestEvent.Type type = event.getType();
         log.debug("Handling GET Request Event {} {}", type, Thread.currentThread().getId());
 
-        if (type == RequestEvent.Type.RESOURCE_METHOD_START) {
-            transactionAspect.initHandle();
-
-        } else if (type == RequestEvent.Type.FINISHED) {
+        if (type == RequestEvent.Type.FINISHED) {
             transactionAspect.terminateHandle();
         }
     }

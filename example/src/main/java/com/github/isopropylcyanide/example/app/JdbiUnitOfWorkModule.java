@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings({"UnstableApiUsage", "unchecked"})
 public class JdbiUnitOfWorkModule extends AbstractModule {
 
-    private static final Logger log = LoggerFactory.getLogger(JdbiUnitOfWorkModule.class);
+    private final Logger log = LoggerFactory.getLogger(JdbiUnitOfWorkModule.class);
     private final JdbiHandleManager handleManager;
     private final Set<String> daoPackages;
 

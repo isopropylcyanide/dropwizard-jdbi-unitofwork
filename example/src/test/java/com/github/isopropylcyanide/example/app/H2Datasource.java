@@ -22,7 +22,7 @@ import java.nio.charset.StandardCharsets;
  */
 public class H2Datasource extends ExternalResource {
 
-    private static final Logger log = LoggerFactory.getLogger(H2Datasource.class);
+    private final Logger log = LoggerFactory.getLogger(H2Datasource.class);
     private DBI dbi;
     private final String createSchemaSqlFile;
     private final String dropSchemaSqlFile;
@@ -56,7 +56,7 @@ public class H2Datasource extends ExternalResource {
 
     private DBI getDBI() {
         final PoolProperties poolConfig = new PoolProperties();
-        poolConfig.setUrl("jdbc:h2:mem:approvalservice;MVCC=true;DEFAULT_LOCK_TIMEOUT=10000;LOCK_MODE=0;DATABASE_TO_UPPER=FALSE");
+        poolConfig.setUrl("jdbc:h2:mem:test;DEFAULT_LOCK_TIMEOUT=10000;LOCK_MODE=0;DATABASE_TO_UPPER=FALSE");
         poolConfig.setDriverClassName("org.h2.Driver");
         poolConfig.setUsername("root");
         poolConfig.setPassword("");

@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.skife.jdbi.v2.Handle;
 
 import static org.glassfish.jersey.server.monitoring.RequestEvent.Type.FINISHED;
-import static org.glassfish.jersey.server.monitoring.RequestEvent.Type.RESOURCE_METHOD_START;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -30,17 +29,8 @@ public class HttpGetRequestJdbiUnitOfWorkEventListenerTest {
     }
 
     @Test
-    public void testHandleIsInitialisedWhenEventTypeIsResourceMethodStart() {
-        when(requestEvent.getType()).thenReturn(RESOURCE_METHOD_START);
-        listener.onEvent(requestEvent);
-        verify(handleManager, times(1)).get();
-    }
-
-    @Test
     public void testHandleIsClosedWhenEventTypeIsFinished() {
-        when(requestEvent.getType()).thenReturn(RESOURCE_METHOD_START).thenReturn(FINISHED);
-        listener.onEvent(requestEvent);
-        verify(handleManager, times(1)).get();
+        when(requestEvent.getType()).thenReturn(FINISHED);
 
         listener.onEvent(requestEvent);
         verify(handleManager, times(1)).clear();

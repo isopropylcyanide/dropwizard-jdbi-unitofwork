@@ -29,8 +29,10 @@ import org.slf4j.LoggerFactory;
  */
 public class RequestScopedJdbiHandleManager implements JdbiHandleManager {
 
-    private static final Logger log = LoggerFactory.getLogger(RequestScopedJdbiHandleManager.class);
+    private final Logger log = LoggerFactory.getLogger(RequestScopedJdbiHandleManager.class);
     private final DBI dbi;
+
+    @SuppressWarnings("ThreadLocalUsage")
     private final ThreadLocal<Handle> threadLocal = new ThreadLocal<>();
 
     public RequestScopedJdbiHandleManager(DBI dbi) {
