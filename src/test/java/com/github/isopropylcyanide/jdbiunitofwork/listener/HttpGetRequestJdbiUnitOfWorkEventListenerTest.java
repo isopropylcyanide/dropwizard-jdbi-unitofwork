@@ -2,8 +2,8 @@ package com.github.isopropylcyanide.jdbiunitofwork.listener;
 
 import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiHandleManager;
 import org.glassfish.jersey.server.monitoring.RequestEvent;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.skife.jdbi.v2.Handle;
 
 import static org.glassfish.jersey.server.monitoring.RequestEvent.Type.FINISHED;
@@ -20,7 +20,7 @@ public class HttpGetRequestJdbiUnitOfWorkEventListenerTest {
 
     private HttpGetRequestJdbiUnitOfWorkEventListener listener;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         handleManager = mock(JdbiHandleManager.class);
         when(handleManager.get()).thenReturn(mock(Handle.class));
