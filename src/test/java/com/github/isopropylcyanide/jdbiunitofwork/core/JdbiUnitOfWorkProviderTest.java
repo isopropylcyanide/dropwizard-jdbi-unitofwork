@@ -30,20 +30,10 @@ public class JdbiUnitOfWorkProviderTest {
     }
 
     @Test
-    public void testGetWrappedInstanceForNullDaoClassThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> provider.getWrappedInstanceForDaoClass(null));
-    }
-
-    @Test
     public void testGetWrappedInstanceForDaoClass() {
         assertNotNull(provider.getWrappedInstanceForDaoClass(DaoA.class));
         assertNotNull(provider.getWrappedInstanceForDaoClass(DaoB.class));
         assertThrows(IllegalArgumentException.class, () -> provider.getWrappedInstanceForDaoClass(DaoC.class));
-    }
-
-    @Test
-    public void testGetWrappedInstanceForNullDaoPackageThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> provider.getWrappedInstanceForDaoPackage(null));
     }
 
     @Test

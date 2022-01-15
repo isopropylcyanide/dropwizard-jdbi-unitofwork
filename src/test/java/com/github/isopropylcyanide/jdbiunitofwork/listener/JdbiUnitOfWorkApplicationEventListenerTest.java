@@ -15,6 +15,7 @@ import javax.ws.rs.HttpMethod;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -58,6 +59,7 @@ public class JdbiUnitOfWorkApplicationEventListenerTest {
         when(requestEvent.getContainerRequest().getMethod()).thenReturn(HttpMethod.GET);
 
         RequestEventListener eventListener = applicationListener.onRequest(requestEvent);
+        assertNotNull(eventListener);
         assertEquals(HttpGetRequestJdbiUnitOfWorkEventListener.class, eventListener.getClass());
     }
 
@@ -67,6 +69,7 @@ public class JdbiUnitOfWorkApplicationEventListenerTest {
         when(requestEvent.getContainerRequest().getMethod()).thenReturn(HttpMethod.PUT);
 
         RequestEventListener eventListener = applicationListener.onRequest(requestEvent);
+        assertNotNull(eventListener);
         assertEquals(NonHttpGetRequestJdbiUnitOfWorkEventListener.class, eventListener.getClass());
     }
 }
