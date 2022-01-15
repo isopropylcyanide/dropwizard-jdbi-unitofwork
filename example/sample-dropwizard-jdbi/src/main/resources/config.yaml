@@ -1,0 +1,17 @@
+server:
+  applicationConnectors:
+    - type: http
+      port: 8060
+  adminConnectors:
+    - type: http
+      port: 8061
+
+logging:
+  level: INFO
+
+database:
+  driverClass: com.mysql.cj.jdbc.Driver
+  autoCommitByDefault: false
+  url: jdbc:mysql://localhost:3306/sample?useSSL=false
+  user: root
+  password: password

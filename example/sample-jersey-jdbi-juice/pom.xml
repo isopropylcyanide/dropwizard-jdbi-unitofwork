@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.isopropylcyanide</groupId>
-    <artifactId>example</artifactId>
+    <artifactId>example-sample-jersey-jdbi-guice</artifactId>
     <version>1.0</version>
-    <name>Example</name>
+    <name>Sample Jersey JDBI Guice Unit of Work</name>
 
     <licenses>
         <license>
@@ -69,7 +69,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.google.inject/guice -->
         <dependency>
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
