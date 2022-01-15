@@ -5,7 +5,7 @@ import com.github.isopropylcyanide.jdbiunitofwork.core.ManagedHandleInvocationHa
 import com.google.common.collect.Sets;
 import com.google.common.reflect.Reflection;
 import org.reflections.Reflections;
-import org.reflections.scanners.MethodAnnotationsScanner;
+import org.reflections.scanners.Scanners;
 import org.skife.jdbi.v2.sqlobject.SqlBatch;
 import org.skife.jdbi.v2.sqlobject.SqlCall;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
@@ -102,13 +102,12 @@ public class JdbiUnitOfWorkProvider {
     }
 
     private Set<? extends Class<?>> getDaoClassesForPackage(String pkg) {
-        MethodAnnotationsScanner scanner = new MethodAnnotationsScanner();
         Set<Method> daoClasses = new HashSet<>();
 
-        Sets.SetView<Method> union = Sets.union(daoClasses, new Reflections(pkg, scanner).getMethodsAnnotatedWith(SqlQuery.class));
-        union = Sets.union(union, new Reflections(pkg, scanner).getMethodsAnnotatedWith(SqlUpdate.class));
-        union = Sets.union(union, new Reflections(pkg, scanner).getMethodsAnnotatedWith(SqlBatch.class));
-        union = Sets.union(union, new Reflections(pkg, scanner).getMethodsAnnotatedWith(SqlCall.class));
+        Sets.SetView<Method> union = Sets.union(daoClasses, new Reflections(pkg, Scanners.MethodsAnnotated).getMethodsAnnotatedWith(SqlQuery.class));
+        union = Sets.union(union, new Reflections(pkg, Scanners.MethodsAnnotated).getMethodsAnnotatedWith(SqlUpdate.class));
+        union = Sets.union(union, new Reflections(pkg, Scanners.MethodsAnnotated).getMethodsAnnotatedWith(SqlBatch.class));
+        union = Sets.union(union, new Reflections(pkg, Scanners.MethodsAnnotated).getMethodsAnnotatedWith(SqlCall.class));
 
         return union.stream()
                 .map(Method::getDeclaringClass)
