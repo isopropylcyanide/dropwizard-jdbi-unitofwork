@@ -14,21 +14,21 @@
 package com.github.isopropylcyanide.jdbiunitofwork.core;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import org.apache.commons.lang3.StringUtils;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadFactory;
 
 /**
  * This implementation provides a handle scoped to a thread and all other threads Y spawned from X
- * All Y threads must follow a particular name format {@value NAME_FORMAT} where {@literal %s}
- * should be replaced by the conversation id. This is one of the ways the manager can know of the
- * grouping and establish reusability of handles across such grouped threads.
+ * All Y threads must follow a particular name format extracted from the conversation id
+ * This is one of the ways the manager can know of the grouping and establish re-usability of
+ * handles across such grouped threads.
  * <br><br>
  * It can be used to service requests where only a single handle instance has to be used by multiple
  * threads that are spawned with the specified name format from an initial thread. Use this only
@@ -43,8 +43,7 @@ import java.util.concurrent.ThreadFactory;
  **/
 public class LinkedRequestScopedJdbiHandleManager implements JdbiHandleManager {
 
-    private static final Logger log = LoggerFactory.getLogger(LinkedRequestScopedJdbiHandleManager.class);
-    private static final String NAME_FORMAT = "[%s]-%%d";
+    private final Logger log = LoggerFactory.getLogger(LinkedRequestScopedJdbiHandleManager.class);
     private final Map<String, Handle> parentThreadHandleMap = new ConcurrentHashMap<>();
     private final DBI dbi;
 
@@ -54,7 +53,7 @@ public class LinkedRequestScopedJdbiHandleManager implements JdbiHandleManager {
 
     @Override
     public Handle get() {
-        String parent = StringUtils.substringBetween(Thread.currentThread().getName(), "[", "]");
+        String parent = substringBetween(Thread.currentThread().getName());
         Handle handle;
         if (parent == null) {
             handle = getHandle();
@@ -85,7 +84,7 @@ public class LinkedRequestScopedJdbiHandleManager implements JdbiHandleManager {
 
     @Override
     public ThreadFactory createThreadFactory() {
-        String threadName = String.format(NAME_FORMAT, getConversationId());
+        String threadName = String.format("[%s]-%%d", getConversationId());
         return new ThreadFactoryBuilder().setNameFormat(threadName).build();
     }
 
@@ -97,5 +96,17 @@ public class LinkedRequestScopedJdbiHandleManager implements JdbiHandleManager {
         Handle handle = dbi.open();
         parentThreadHandleMap.putIfAbsent(threadIdentity, handle);
         return handle;
+    }
+
+    @Nullable
+    private String substringBetween(String threadName) {
+        final int start = threadName.indexOf("[");
+        if (start != -1) {
+            final int end = threadName.indexOf("]", start + "[".length());
+            if (end != -1) {
+                return threadName.substring(start + "[".length(), end);
+            }
+        }
+        return null;
     }
 }

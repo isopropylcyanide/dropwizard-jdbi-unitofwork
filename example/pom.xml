@@ -26,11 +26,12 @@
         <surefire.version>2.19.1</surefire.version>
 
         <!--Application-->
-        <dropwizard.jdbi.unitofwork.version>1.0</dropwizard.jdbi.unitofwork.version>
+        <dropwizard.jdbi.unitofwork.version>1.2-SNAPSHOT</dropwizard.jdbi.unitofwork.version>
         <mockito.core.version>3.8.0</mockito.core.version>
         <junit.version>4.13.1</junit.version>
         <jersey.test.framework.version>2.25.1</jersey.test.framework.version>
         <h2.version>2.0.206</h2.version>
+        <google.guice.version>5.0.1</google.guice.version>
     </properties>
 
     <dependencies>
@@ -66,6 +67,13 @@
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.google.inject/guice -->
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>${google.guice.version}</version>
         </dependency>
     </dependencies>
 

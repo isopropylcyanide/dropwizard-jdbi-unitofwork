@@ -15,7 +15,6 @@ package com.github.isopropylcyanide.jdbiunitofwork.listener;
 
 import com.github.isopropylcyanide.jdbiunitofwork.JdbiUnitOfWork;
 import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiHandleManager;
-import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiTransactionAspect;
 import org.glassfish.jersey.server.model.ResourceMethod;
 import org.glassfish.jersey.server.monitoring.RequestEvent;
 import org.glassfish.jersey.server.monitoring.RequestEventListener;
@@ -34,7 +33,7 @@ import org.slf4j.LoggerFactory;
  */
 class NonHttpGetRequestJdbiUnitOfWorkEventListener implements RequestEventListener {
 
-    private static final Logger log = LoggerFactory.getLogger(NonHttpGetRequestJdbiUnitOfWorkEventListener.class);
+    private final Logger log = LoggerFactory.getLogger(NonHttpGetRequestJdbiUnitOfWorkEventListener.class);
     private final JdbiTransactionAspect transactionAspect;
 
     NonHttpGetRequestJdbiUnitOfWorkEventListener(JdbiHandleManager handleManager) {
@@ -76,7 +75,6 @@ class NonHttpGetRequestJdbiUnitOfWorkEventListener implements RequestEventListen
     }
 
     private void initialise(boolean isTransactional) {
-        transactionAspect.initHandle();
         if (isTransactional) {
             transactionAspect.begin();
         }

@@ -33,7 +33,7 @@ import java.lang.reflect.Method;
  */
 public class ManagedHandleInvocationHandler<T> implements InvocationHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(ManagedHandleInvocationHandler.class);
+    private final Logger log = LoggerFactory.getLogger(ManagedHandleInvocationHandler.class);
     private static final Object[] NO_ARGS = {};
     private final JdbiHandleManager handleManager;
     private final Class<T> underlying;

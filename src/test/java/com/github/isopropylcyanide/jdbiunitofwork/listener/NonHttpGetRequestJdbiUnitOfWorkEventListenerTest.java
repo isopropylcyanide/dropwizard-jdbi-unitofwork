@@ -1,7 +1,5 @@
 package com.github.isopropylcyanide.jdbiunitofwork.listener;
 
-import javax.ws.rs.core.MediaType;
-
 import com.github.isopropylcyanide.jdbiunitofwork.JdbiUnitOfWork;
 import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiHandleManager;
 import org.glassfish.jersey.server.model.Resource;
@@ -12,6 +10,8 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.skife.jdbi.v2.Handle;
 
+import javax.ws.rs.core.MediaType;
+
 import static org.glassfish.jersey.server.monitoring.RequestEvent.Type.FINISHED;
 import static org.glassfish.jersey.server.monitoring.RequestEvent.Type.ON_EXCEPTION;
 import static org.glassfish.jersey.server.monitoring.RequestEvent.Type.RESOURCE_METHOD_START;
@@ -20,6 +20,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 public class NonHttpGetRequestJdbiUnitOfWorkEventListenerTest {
@@ -43,12 +44,12 @@ public class NonHttpGetRequestJdbiUnitOfWorkEventListenerTest {
     }
 
     @Test
-    public void testHandleIsInitialisedWhenEventTypeIsResourceMethodStartButNotTransactional() {
+    public void testHandleIsNoOpWhenEventTypeIsResourceMethodStartButNotTransactional() {
         when(requestEvent.getType()).thenReturn(RESOURCE_METHOD_START);
         when(requestEvent.getUriInfo().getMatchedResourceMethod()).thenReturn(null);
 
         listener.onEvent(requestEvent);
-        verify(handleManager, times(1)).get();
+        verifyNoInteractions(handleManager);
     }
 
     @Test
@@ -75,7 +76,6 @@ public class NonHttpGetRequestJdbiUnitOfWorkEventListenerTest {
         when(requestEvent.getUriInfo().getMatchedResourceMethod()).thenReturn(null);
 
         listener.onEvent(requestEvent);
-        verify(handleManager, times(1)).get();
 
         listener.onEvent(requestEvent);
         verify(handleManager, times(1)).clear();
@@ -83,10 +83,7 @@ public class NonHttpGetRequestJdbiUnitOfWorkEventListenerTest {
 
     @Test
     public void testHandleIsClosedWhenEventTypeIsFinished() {
-        when(requestEvent.getType()).thenReturn(RESOURCE_METHOD_START).thenReturn(FINISHED);
-        listener.onEvent(requestEvent);
-        verify(handleManager, times(1)).get();
-
+        when(requestEvent.getType()).thenReturn(FINISHED);
         listener.onEvent(requestEvent);
         verify(handleManager, times(1)).clear();
     }

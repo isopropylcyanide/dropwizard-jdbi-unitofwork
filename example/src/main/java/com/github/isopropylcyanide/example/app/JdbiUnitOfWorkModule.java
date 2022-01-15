@@ -13,52 +13,29 @@
  */
 package com.github.isopropylcyanide.example.app;
 
+import com.github.isopropylcyanide.jdbiunitofwork.JdbiUnitOfWorkProvider;
 import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiHandleManager;
-import com.github.isopropylcyanide.jdbiunitofwork.core.ManagedHandleInvocationHandler;
-import com.google.common.collect.Sets;
-import com.google.common.reflect.Reflection;
 import com.google.inject.AbstractModule;
-import org.reflections.Reflections;
-import org.reflections.scanners.MethodAnnotationsScanner;
-import org.skife.jdbi.v2.sqlobject.SqlQuery;
-import org.skife.jdbi.v2.sqlobject.SqlUpdate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Map;
 
-@SuppressWarnings({"UnstableApiUsage", "unchecked"})
+@SuppressWarnings({"unchecked", "rawtypes"})
 public class JdbiUnitOfWorkModule extends AbstractModule {
 
-    private static final Logger log = LoggerFactory.getLogger(JdbiUnitOfWorkModule.class);
-    private final JdbiHandleManager handleManager;
-    private final Set<String> daoPackages;
+    private final List<String> daoPackages;
+    private final JdbiUnitOfWorkProvider unitOfWorkProvider;
 
-    public JdbiUnitOfWorkModule(JdbiHandleManager handleManager, Set<String> daoPackages) {
-        this.handleManager = handleManager;
+    public JdbiUnitOfWorkModule(JdbiHandleManager handleManager, List<String> daoPackages) {
         this.daoPackages = daoPackages;
+        this.unitOfWorkProvider = new JdbiUnitOfWorkProvider(handleManager);
     }
 
     @Override
     protected void configure() {
-        Set<? extends Class<?>> allDaoClasses = daoPackages.stream().map(
-                pkg -> Sets.union(
-                        new Reflections(pkg, new MethodAnnotationsScanner()).getMethodsAnnotatedWith(SqlQuery.class),
-                        new Reflections(pkg, new MethodAnnotationsScanner()).getMethodsAnnotatedWith(SqlUpdate.class)
-                ).stream().map(Method::getDeclaringClass).collect(Collectors.toSet())
-        ).flatMap(Collection::stream).collect(Collectors.toSet());
-
-        for (Class klass : allDaoClasses) {
-            log.debug("Binding class [{}] with proxy handler [{}] ", klass.getSimpleName(), handleManager.getClass().getSimpleName());
-            bind(klass).toInstance(createNewProxy(klass, handleManager));
+        Map<? extends Class, Object> instanceProxies = unitOfWorkProvider.getWrappedInstanceForDaoPackage(daoPackages);
+        for (Class klass : instanceProxies.keySet()) {
+            bind(klass).toInstance(instanceProxies.get(klass));
         }
-    }
-
-    private <T> T createNewProxy(Class<T> daoClass, JdbiHandleManager handleManager) {
-        Object proxiedInstance = Reflection.newProxy(daoClass, new ManagedHandleInvocationHandler<>(handleManager, daoClass));
-        return daoClass.cast(proxiedInstance);
     }
 }
