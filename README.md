@@ -120,7 +120,7 @@ in [GitHub issues](https://github.com/isopropylcyanide/dropwizard-jdbi-unitofwor
 
 ## License
 
-Copyright (c) 2012-2020 Aman Garg
+Copyright (c) 2020-2022 Aman Garg
 
 This library is licensed under the Apache License, Version 2.0.
 
