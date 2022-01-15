@@ -1,6 +1,6 @@
 package com.github.isopropylcyanide.jdbiunitofwork.listener;
 
-import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiHandleManager;
+import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiUnitOfWorkProvider;
 import org.glassfish.jersey.server.monitoring.ApplicationEvent;
 import org.glassfish.jersey.server.monitoring.ApplicationEventListener;
 import org.glassfish.jersey.server.monitoring.RequestEvent;
@@ -30,11 +30,11 @@ import java.util.Set;
 public class JdbiUnitOfWorkApplicationEventListener implements ApplicationEventListener {
 
     private final Logger log = LoggerFactory.getLogger(JdbiUnitOfWorkApplicationEventListener.class);
-    private final JdbiHandleManager handleManager;
+    private final JdbiUnitOfWorkProvider unitOfWorkProvider;
     private final Set<String> excludedPaths;
 
-    public JdbiUnitOfWorkApplicationEventListener(JdbiHandleManager handleManager, Set<String> excludedPaths) {
-        this.handleManager = handleManager;
+    public JdbiUnitOfWorkApplicationEventListener(JdbiUnitOfWorkProvider unitOfWorkProvider, Set<String> excludedPaths) {
+        this.unitOfWorkProvider = unitOfWorkProvider;
         this.excludedPaths = excludedPaths;
     }
 
@@ -51,8 +51,8 @@ public class JdbiUnitOfWorkApplicationEventListener implements ApplicationEventL
             return null;
         }
         if (event.getContainerRequest().getMethod().equals(HttpMethod.GET)) {
-            return new HttpGetRequestJdbiUnitOfWorkEventListener(handleManager);
+            return new HttpGetRequestJdbiUnitOfWorkEventListener(unitOfWorkProvider.getHandleManager());
         }
-        return new NonHttpGetRequestJdbiUnitOfWorkEventListener(handleManager);
+        return new NonHttpGetRequestJdbiUnitOfWorkEventListener(unitOfWorkProvider.getHandleManager());
     }
 }

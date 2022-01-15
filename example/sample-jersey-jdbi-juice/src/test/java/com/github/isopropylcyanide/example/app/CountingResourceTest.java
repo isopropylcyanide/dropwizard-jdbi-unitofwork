@@ -3,7 +3,7 @@ package com.github.isopropylcyanide.example.app;
 import com.github.isopropylcyanide.example.app.dao.CountingDao;
 import com.github.isopropylcyanide.example.app.exception.CountingResourceExceptionMapper;
 import com.github.isopropylcyanide.example.app.resource.CountingResource;
-import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiHandleManager;
+import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiUnitOfWorkProvider;
 import com.github.isopropylcyanide.jdbiunitofwork.listener.JdbiUnitOfWorkApplicationEventListener;
 import com.google.common.collect.Sets;
 import com.google.inject.Guice;
@@ -27,7 +27,7 @@ public class CountingResourceTest extends JerseyTest {
 
     private static CountingDao dao;
 
-    private static JdbiHandleManager handleManager;
+    private static JdbiUnitOfWorkProvider unitOfWorkProvider;
 
     @ClassRule
     public static ExpectedException thrown;
@@ -40,16 +40,16 @@ public class CountingResourceTest extends JerseyTest {
         CountingModule module = new CountingModule(datasource.getDbi());
         Injector injector = Guice.createInjector(module);
         dao = injector.getInstance(CountingDao.class);
-        handleManager = injector.getInstance(JdbiHandleManager.class);
+        unitOfWorkProvider = injector.getInstance(JdbiUnitOfWorkProvider.class);
     }
 
     @Override
     protected Application configure() {
         dao.clear();
         return new ResourceConfig()
-                .register(new CountingResource(handleManager, dao))
+                .register(new CountingResource(unitOfWorkProvider, dao))
                 .register(CountingResourceExceptionMapper.class)
-                .register(new JdbiUnitOfWorkApplicationEventListener(handleManager, Sets.newHashSet("excluded")));
+                .register(new JdbiUnitOfWorkApplicationEventListener(unitOfWorkProvider, Sets.newHashSet("excluded")));
     }
 
     @Test

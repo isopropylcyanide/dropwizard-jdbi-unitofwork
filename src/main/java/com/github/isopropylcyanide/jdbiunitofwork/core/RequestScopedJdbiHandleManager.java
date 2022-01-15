@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
  * @apiNote Not suitable for requests which spawn new threads from the requesting thread as the scoped
  * handle is not preserved. This implementation, therefore, does not support thread factory creation
  */
-public class RequestScopedJdbiHandleManager implements JdbiHandleManager {
+class RequestScopedJdbiHandleManager implements JdbiHandleManager {
 
     private final Logger log = LoggerFactory.getLogger(RequestScopedJdbiHandleManager.class);
     private final DBI dbi;

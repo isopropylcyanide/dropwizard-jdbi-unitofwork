@@ -40,17 +40,17 @@ This project is available on Maven Central. To add it to your project you can ad
 
 - Add the dependency to your `pom.xml`
 
-- Decide which implementation of `JdbiHandleManager` is suitable for your use case.
+- Construct a `JdbiUnitOfWorkProvider` from the DBI instance.
 
   ```java
-  JdbiHandleManager handleManager = new RequestScopedJdbiHandleManager(dbi);  // most common
-  or 
-  JdbiHandleManager handleManager = new LinkedRequestScopedJdbiHandleManager(dbi);
+  JdbiUnitOfWorkProvider provider = JdbiUnitOfWorkProvider.withDefault(dbi); // most common
+               or
+  JdbiUnitOfWorkProvider provider = JdbiUnitOfWorkProvider.withLinked(dbi); // most common
   ```
 
   If you are using Guice, you can bind the instance
   ```
-  bind(JdbiHandleManager.class).toInstance(new RequestScopedJdbiHandleManager(dbi));
+  bind(JdbiUnitOfWorkProvider.class).toInstance(provider);
   ```
 
 <br>
@@ -60,34 +60,32 @@ This project is available on Maven Central. To add it to your project you can ad
 
   <br>
 
-  A helper class `JdbiUnitOfWorkProvider` is provided to generate the proxies. You can also register the classes one by
-  one.
+  Use `JdbiUnitOfWorkProvider` to generate the proxies. You can also register the classes one by one.
 
   ```java
-  JdbiUnitOfWorkProvider provider = new JdbiUnitOfWorkProvider(handleManager);
   
   // class level
   SampleDao dao = (SampleDao) provider.getWrappedInstanceForDaoClass(SampleDao.class);
   // use the proxies and pass it as they were normal instances
-  // ...new SampleResource(dao)
+  resource = new SampleResource(dao);
   
   // package level
-  List<String> daoPackages = Lists.newArrayList("<fq-package-name>", "fq-package-name", ...);
+  List<String> daoPackages = Lists.newArrayList("<fq-package-name>", "fq-package-name-2", ...);
   Map<? extends Class, Object> proxies = unitOfWorkProvider.getWrappedInstanceForDaoPackage(daoPackages);
   // use the proxies and pass it as they were normal instances
-  // ...new SampleResource((SampleDao)proxies.get(SampleDao.class))
+  resource = ...new SampleResource((SampleDao)proxies.get(SampleDao.class))
   ```
 
 <br>
 
-- Finally, we need to register the event listener with the Jersey Environment
+- Finally, we need to register the event listener with the Jersey Environment using the constructed provider
   ```
-  Set<String> excludePaths = new HashSet<>()
-  environment.jersey().register(new JdbiUnitOfWorkApplicationEventListener(handleManager, excludePaths));
+  environment.jersey().register(new JdbiUnitOfWorkApplicationEventListener(provider, new HashSet<>()));;
   ```
   In case you'd like to exclude certain URI paths from being monitored, you can pass them into exclude paths;
   ```
-  environment.jersey().register(new JdbiUnitOfWorkApplicationEventListener(handleManager, new HashSet<>()));
+  Set<String> excludePaths = new HashSet<>();
+  environment.jersey().register(new JdbiUnitOfWorkApplicationEventListener(handleManager, excludePaths));
   ```
 
 <br>

@@ -2,7 +2,7 @@ package com.github.isopropylcyanide.example.app.resource;
 
 import com.github.isopropylcyanide.example.app.dao.CountingDao;
 import com.github.isopropylcyanide.jdbiunitofwork.JdbiUnitOfWork;
-import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiHandleManager;
+import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiUnitOfWorkProvider;
 
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -20,12 +20,12 @@ import java.util.stream.IntStream;
 @Path("/")
 public class CountingResource {
 
-    private final JdbiHandleManager handleManager;
+    private final JdbiUnitOfWorkProvider unitOfWorkProvider;
     private final CountingDao dao;
 
-    public CountingResource(JdbiHandleManager handleManager, CountingDao dao) {
-        this.handleManager = handleManager;
+    public CountingResource(JdbiUnitOfWorkProvider unitOfWorkProvider, CountingDao dao) {
         this.dao = dao;
+        this.unitOfWorkProvider = unitOfWorkProvider;
     }
 
     @GET
@@ -65,7 +65,7 @@ public class CountingResource {
                                                                        @QueryParam("failOnce") boolean failOnce,
                                                                        @QueryParam("failOn") @DefaultValue("-1") int failOn,
                                                                        int size) throws Throwable {
-        ThreadFactory threadFactory = handleManager.createThreadFactory();
+        ThreadFactory threadFactory = unitOfWorkProvider.getHandleManager().createThreadFactory();
         ExecutorService service = Executors.newCachedThreadPool(threadFactory);
         insertMultiThreaded(numThreads, failOnce, failOn, size, service);
     }

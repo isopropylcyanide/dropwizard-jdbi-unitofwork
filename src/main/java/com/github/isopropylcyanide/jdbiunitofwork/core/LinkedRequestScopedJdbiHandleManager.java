@@ -28,7 +28,7 @@ import java.util.concurrent.ThreadFactory;
  * dao requests between multiple threads.
  * Note: Not suitable when you can not set the name format for the newly spawned threads.
  **/
-public class LinkedRequestScopedJdbiHandleManager implements JdbiHandleManager {
+class LinkedRequestScopedJdbiHandleManager implements JdbiHandleManager {
 
     private final Logger log = LoggerFactory.getLogger(LinkedRequestScopedJdbiHandleManager.class);
     private final Map<String, Handle> parentThreadHandleMap = new ConcurrentHashMap<>();

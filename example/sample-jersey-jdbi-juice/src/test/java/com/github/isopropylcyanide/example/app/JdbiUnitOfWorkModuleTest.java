@@ -2,13 +2,13 @@ package com.github.isopropylcyanide.example.app;
 
 import com.github.isopropylcyanide.example.app.dao.CountingDao;
 import com.github.isopropylcyanide.example.app.resource.CountingResource;
-import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiHandleManager;
 import com.google.inject.ConfigurationException;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import jersey.repackaged.com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
+import org.skife.jdbi.v2.DBI;
 
 import java.util.List;
 
@@ -22,9 +22,8 @@ public class JdbiUnitOfWorkModuleTest {
 
     @Before
     public void setUp() {
-        JdbiHandleManager mockHandleManager = mock(JdbiHandleManager.class);
         List<String> daoPackages = Lists.newArrayList("com.github.isopropylcyanide.example.app");
-        JdbiUnitOfWorkModule module = new JdbiUnitOfWorkModule(mockHandleManager, daoPackages);
+        JdbiUnitOfWorkModule module = new JdbiUnitOfWorkModule(mock(DBI.class), daoPackages);
         injector = Guice.createInjector(module);
     }
 

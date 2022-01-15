@@ -51,7 +51,6 @@ public class JdbiTransactionAspectTest {
 
     @Test
     public void testCommitDoesNothingWhenHandleIsNull() {
-        mockHandle = null;
         assertDoesNotThrow(() -> aspect.commit());
     }
 
@@ -73,7 +72,6 @@ public class JdbiTransactionAspectTest {
 
     @Test
     public void testRollbackDoesNothingWhenHandleIsNull() {
-        mockHandle = null;
         assertDoesNotThrow(() -> aspect.rollback());
     }
 
@@ -95,7 +93,6 @@ public class JdbiTransactionAspectTest {
 
     @Test
     public void testTerminateHandleDoesNothingWhenHandleIsNull() {
-        mockHandle = null;
         assertDoesNotThrow(() -> aspect.terminateHandle());
     }
 

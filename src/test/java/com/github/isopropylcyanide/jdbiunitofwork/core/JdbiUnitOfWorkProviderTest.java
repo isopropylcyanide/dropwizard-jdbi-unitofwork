@@ -1,11 +1,11 @@
-package com.github.isopropylcyanide.jdbiunitofwork;
+package com.github.isopropylcyanide.jdbiunitofwork.core;
 
-import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiHandleManager;
 import com.google.common.collect.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.SqlUpdate;
 
@@ -19,14 +19,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class JdbiUnitOfWorkProviderTest {
 
     @Mock
-    private JdbiHandleManager handleManager;
+    private DBI dbi;
 
     private JdbiUnitOfWorkProvider provider;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        this.provider = new JdbiUnitOfWorkProvider(handleManager);
+        this.provider = JdbiUnitOfWorkProvider.withDefault(dbi);
     }
 
     @Test
