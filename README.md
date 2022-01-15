@@ -5,15 +5,15 @@
 ![GitHub](https://img.shields.io/github/license/isopropylcyanide/dropwizard-jdbi-unitofwork?color=blue)
 ![Maven Central](https://img.shields.io/maven-central/v/com.github.isopropylcyanide/dropwizard-jdbi-unitofwork)
 
-Provides `@JdbiUnitOfWork` annotation for a Jdbi backed Dropwizard backend for wrapping resource methods in a
-transaction context
+Provides a Unit of Work annotation for a Jdbi backed Dropwizard service for wrapping resource methods in a transaction
+context
 
 - [`Dropwizard`](https://github.com/dropwizard/dropwizard) provides a very
   slick [`@UnitOfWork`](https://www.dropwizard.io/en/latest/manual/hibernate.html) annotation that wraps a transaction
   context around resource methods annotated with this annotation. This is very useful for wrapping multiple calls in a
   single database transaction all of which will succeed or roll back atomically.
 
-- However this support is only available for `Hibernate`. For all the goodness [`Jdbi`](http://jdbi.org/jdbi2/) brings,
+- However, this support is only available for `Hibernate`. For all the goodness [`Jdbi`](http://jdbi.org/jdbi2/) brings,
   we had to bring the transactionality on our own. This module provides support for `JdbiUnitOfWork` with a `Jdbi`
   backend
 
@@ -32,13 +32,11 @@ This project is available on Maven Central. To add it to your project you can ad
 
 - `transactionality` across multiple datasources when called from a request thread
 - `transactionality` across multiple datasources across `multiple threads`
-- `excluding`, selectively, certain set of URI's from transaction contexts, such as `ELB`, `Health Checks` etc
+- `excluding` selectively, certain set of URI's from transaction contexts, such as `ELB`, `Health Checks` etc
 - `Http GET` methods are excluded from transaction by default.
 - `Http POST` methods are wrapped around in a transaction only when annotated with `@JdbiUnitOfWork`
 
-## Usage (tl;dr)
-
-## Usage (With Guice modules)
+## Usage
 
 - Add the dependency to your `pom.xml`
 
@@ -62,8 +60,8 @@ This project is available on Maven Central. To add it to your project you can ad
 
   <br>
 
-  A helper class `JdbiUnitOfWorkProvider`**` is provided to generate the proxies. You can also register the classes one
-  by one.
+  A helper class `JdbiUnitOfWorkProvider` is provided to generate the proxies. You can also register the classes one by
+  one.
 
   ```java
   JdbiUnitOfWorkProvider provider = new JdbiUnitOfWorkProvider(handleManager);
