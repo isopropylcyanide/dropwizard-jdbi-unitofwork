@@ -5,19 +5,16 @@ import com.google.common.collect.Sets;
 import org.glassfish.jersey.server.monitoring.ApplicationEvent;
 import org.glassfish.jersey.server.monitoring.RequestEvent;
 import org.glassfish.jersey.server.monitoring.RequestEventListener;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Answers;
-import org.mockito.Mock;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.skife.jdbi.v2.Handle;
 
 import javax.ws.rs.HttpMethod;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -29,7 +26,7 @@ public class JdbiUnitOfWorkApplicationEventListenerTest {
 
     private JdbiUnitOfWorkApplicationEventListener applicationListener;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         JdbiHandleManager handleManager = mock(JdbiHandleManager.class);
         when(handleManager.get()).thenReturn(mock(Handle.class));

@@ -2,8 +2,8 @@ package com.github.isopropylcyanide.jdbiunitofwork;
 
 import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiHandleManager;
 import com.google.common.collect.Lists;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
@@ -11,10 +11,10 @@ import org.skife.jdbi.v2.sqlobject.SqlUpdate;
 
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class JdbiUnitOfWorkProviderTest {
 
@@ -23,7 +23,7 @@ public class JdbiUnitOfWorkProviderTest {
 
     private JdbiUnitOfWorkProvider provider;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
         this.provider = new JdbiUnitOfWorkProvider(handleManager);

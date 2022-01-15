@@ -1,7 +1,7 @@
 package com.github.isopropylcyanide.jdbiunitofwork.core;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.stubbing.Answer;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
@@ -11,8 +11,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -25,7 +25,7 @@ public class LinkedRequestScopedJdbiHandleManagerTest {
 
     private LinkedRequestScopedJdbiHandleManager manager;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         dbi = mock(DBI.class);
         this.manager = new LinkedRequestScopedJdbiHandleManager(dbi);

@@ -1,11 +1,12 @@
 package com.github.isopropylcyanide.jdbiunitofwork.listener;
 
 import com.github.isopropylcyanide.jdbiunitofwork.core.JdbiHandleManager;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.skife.jdbi.v2.Handle;
 
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -21,7 +22,7 @@ public class JdbiTransactionAspectTest {
 
     private JdbiTransactionAspect aspect;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         handleManager = mock(JdbiHandleManager.class);
         mockHandle = mock(Handle.class);
@@ -51,8 +52,7 @@ public class JdbiTransactionAspectTest {
     @Test
     public void testCommitDoesNothingWhenHandleIsNull() {
         mockHandle = null;
-        aspect.commit();
-        // No exception means no method called on the null handle
+        assertDoesNotThrow(() -> aspect.commit());
     }
 
     @Test
@@ -74,8 +74,7 @@ public class JdbiTransactionAspectTest {
     @Test
     public void testRollbackDoesNothingWhenHandleIsNull() {
         mockHandle = null;
-        aspect.rollback();
-        // No exception means no method called on the null handle
+        assertDoesNotThrow(() -> aspect.rollback());
     }
 
     @Test
@@ -97,8 +96,7 @@ public class JdbiTransactionAspectTest {
     @Test
     public void testTerminateHandleDoesNothingWhenHandleIsNull() {
         mockHandle = null;
-        aspect.terminateHandle();
-        // No exception means no method called on the null handle
+        assertDoesNotThrow(() -> aspect.terminateHandle());
     }
 
     @Test

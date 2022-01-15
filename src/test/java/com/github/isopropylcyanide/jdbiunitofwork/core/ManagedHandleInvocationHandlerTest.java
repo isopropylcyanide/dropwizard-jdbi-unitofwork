@@ -1,11 +1,11 @@
 package com.github.isopropylcyanide.jdbiunitofwork.core;
 
 import com.google.common.reflect.Reflection;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.skife.jdbi.v2.Handle;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -22,7 +22,7 @@ public class ManagedHandleInvocationHandlerTest {
 
     DummyDao proxiedDao;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         handleManager = mock(JdbiHandleManager.class);
         mockHandle = mock(Handle.class);

@@ -28,7 +28,7 @@
         <!--Application-->
         <dropwizard.jdbi.unitofwork.version>1.2-SNAPSHOT</dropwizard.jdbi.unitofwork.version>
         <mockito.core.version>3.8.0</mockito.core.version>
-        <junit.version>4.13.1</junit.version>
+        <junit.jupiter.version>5.4.0</junit.jupiter.version>
         <jersey.test.framework.version>2.25.1</jersey.test.framework.version>
         <h2.version>2.0.206</h2.version>
         <google.guice.version>5.0.1</google.guice.version>
@@ -63,9 +63,9 @@
         </dependency>
 
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -78,43 +78,15 @@
     </dependencies>
 
     <build>
-        <plugins>
+        <pluginManagement>
             <!--Maven Surefire Plugin-->
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${surefire.version}</version>
-                <configuration>
-                    <printSummary>true</printSummary>
-                    <properties>
-                        <property>
-                            <name>junit</name>
-                            <value>false</value>
-                        </property>
-                    </properties>
-                    <threadCount>1</threadCount>
-                    <argLine>-XX:MaxPermSize=512m</argLine>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.maven.surefire</groupId>
-                        <artifactId>surefire-junit47</artifactId>
-                        <version>${surefire.version}</version>
-                    </dependency>
-                </dependencies>
-                <executions>
-                    <execution>
-                        <id>default-test</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                        <configuration>
-                            <argLine>${surefireArgLine}</argLine>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>3.0.0-M1</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
-
 </project>
