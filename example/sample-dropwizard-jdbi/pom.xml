@@ -25,7 +25,7 @@
         <!--Application-->
         <dropwizard.version>1.3.29</dropwizard.version>
         <dropwizard.jdbi.unitofwork.version>1.2-SNAPSHOT</dropwizard.jdbi.unitofwork.version>
-        <mysql.connector.version>8.0.25</mysql.connector.version>
+        <mysql.connector.version>8.0.28</mysql.connector.version>
 
     </properties>
 
