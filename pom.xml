@@ -67,7 +67,7 @@
         <dropwizard.jdbi.version>1.3.29</dropwizard.jdbi.version>
         <org.reflections.version>0.10.2</org.reflections.version>
         <mockito.core.version>4.9.0</mockito.core.version>
-        <slf4j.version>2.0.3</slf4j.version>
+        <slf4j.version>2.0.5</slf4j.version>
 
         <!--Sonar / Code Coverage-->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
