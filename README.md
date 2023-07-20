@@ -1,6 +1,5 @@
 ## Dropwizard Jdbi - Unit of Work Support
 
-![Travis (.org)](https://img.shields.io/travis/isopropylcyanide/dropwizard-jdbi-unitofwork)
 ![Codecov](https://img.shields.io/codecov/c/github/isopropylcyanide/dropwizard-jdbi-unitofwork?color=green)
 ![GitHub](https://img.shields.io/github/license/isopropylcyanide/dropwizard-jdbi-unitofwork?color=blue)
 ![Maven Central](https://img.shields.io/maven-central/v/com.github.isopropylcyanide/dropwizard-jdbi-unitofwork)
@@ -45,7 +44,7 @@ This project is available on Maven Central. To add it to your project you can ad
   ```java
   JdbiUnitOfWorkProvider provider = JdbiUnitOfWorkProvider.withDefault(dbi); // most common
                or
-  JdbiUnitOfWorkProvider provider = JdbiUnitOfWorkProvider.withLinked(dbi); // most common
+  JdbiUnitOfWorkProvider provider = JdbiUnitOfWorkProvider.withLinked(dbi);
   ```
 
   If you are using Guice, you can bind the instance
@@ -116,7 +115,7 @@ in [GitHub issues](https://github.com/isopropylcyanide/dropwizard-jdbi-unitofwor
 
 ## License
 
-Copyright (c) 2020-2022 Aman Garg
+Copyright (c) 2020-2023 Aman Garg
 
 This library is licensed under the Apache License, Version 2.0.
 
