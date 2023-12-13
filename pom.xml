@@ -73,7 +73,7 @@
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.jacoco.reportPaths>${project.basedir}/target/jacoco.exec</sonar.jacoco.reportPaths>
-        <surefire.version>2.22.2</surefire.version>
+        <surefire.version>3.2.3</surefire.version>
         <junit.jupiter.version>5.9.3</junit.jupiter.version>
         <sonar.language>java</sonar.language>
         <jacoco.version>0.8.10</jacoco.version>
